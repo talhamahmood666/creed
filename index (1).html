@@ -1,0 +1,664 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Creed Web Design · We build phone calls, not websites</title>
+<meta name="description" content="Creed Web Design builds lead-generating websites for plumbers, electricians, and local trades across the US. The site is the hook. The leads are the product." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#08070b;
+    --ink-2:#0f0d14;
+    --panel:#15121c;
+    --bone:#ece6dc;
+    --mist:#8a8494;
+    --copper:#d98a4e;
+    --copper-soft:#e8a96f;
+    --copper-glow:#ffb877;
+    --line:rgba(236,230,220,.10);
+    --maxw:1240px;
+    --ease:cubic-bezier(.2,.7,.2,1);
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;background:var(--ink);color:var(--bone);
+    font-family:"Inter",system-ui,sans-serif;
+    font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--copper);color:#1a0f06}
+  h1,h2,h3{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;line-height:.98;letter-spacing:-.02em;margin:0}
+  .mono{font-family:"JetBrains Mono",monospace;font-weight:500;letter-spacing:.18em;text-transform:uppercase;font-size:12px;color:var(--copper-soft)}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+
+  /* ambient texture */
+  .grain{position:fixed;inset:0;pointer-events:none;z-index:60;opacity:.05;mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+
+  /* cursor glow */
+  .cursor{position:fixed;top:0;left:0;width:420px;height:420px;border-radius:50%;pointer-events:none;z-index:1;
+    transform:translate(-50%,-50%);
+    background:radial-gradient(circle,rgba(217,138,78,.16),transparent 60%);
+    transition:opacity .4s;mix-blend-mode:screen}
+
+  /* nav */
+  header{position:fixed;top:0;left:0;right:0;z-index:50;transition:all .5s var(--ease)}
+  header.scrolled{background:rgba(8,7,11,.7);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+  nav{display:flex;align-items:center;justify-content:space-between;height:74px}
+  .brand{display:flex;align-items:center;gap:11px;font-family:"Bricolage Grotesque";font-weight:800;font-size:21px;letter-spacing:-.01em}
+  .brand .dot{width:13px;height:13px;background:var(--copper);border-radius:48% 52% 60% 40%/55% 45% 55% 45%;animation:morphDot 7s var(--ease) infinite;box-shadow:0 0 20px rgba(217,138,78,.7)}
+  @keyframes morphDot{0%,100%{border-radius:48% 52% 60% 40%/55% 45% 55% 45%}50%{border-radius:60% 40% 35% 65%/40% 60% 40% 60%}}
+  .navlinks{display:flex;gap:34px;align-items:center}
+  .navlinks a{font-size:14.5px;color:var(--mist);transition:color .3s}
+  .navlinks a:hover{color:var(--bone)}
+  .btn{position:relative;display:inline-flex;align-items:center;gap:9px;padding:13px 26px;
+    font-weight:600;font-size:14.5px;color:#1a0f06;background:var(--copper);
+    border:none;cursor:pointer;
+    border-radius:40px 40px 40px 40px;transition:border-radius .6s var(--ease),transform .3s var(--ease),box-shadow .4s}
+  .btn:hover{border-radius:50% 50% 50% 50%/22px 22px 22px 22px;transform:translateY(-2px);box-shadow:0 14px 40px rgba(217,138,78,.35)}
+  .btn.ghost{background:transparent;color:var(--bone);border:1px solid var(--line)}
+  .btn.ghost:hover{border-color:var(--copper-soft);box-shadow:none}
+  .nav-cta{padding:11px 22px}
+  .menu-btn{display:none;background:none;border:0;color:var(--bone);font-size:24px;cursor:pointer}
+
+  /* hero */
+  .hero{position:relative;min-height:100svh;display:flex;align-items:center;overflow:hidden}
+  #gl{position:absolute;inset:0;width:100%;height:100%;z-index:0}
+  .hero-glow{position:absolute;z-index:0;right:-6%;top:50%;transform:translateY(-50%);
+    width:760px;height:760px;border-radius:50%;
+    background:radial-gradient(circle,rgba(217,138,78,.20),transparent 62%);filter:blur(20px);pointer-events:none}
+  .hero .wrap{position:relative;z-index:2}
+  .eyebrow{display:inline-flex;align-items:center;gap:10px;margin-bottom:26px;opacity:0}
+  .eyebrow::before{content:"";width:34px;height:1px;background:var(--copper-soft)}
+  h1.head{font-size:clamp(44px,8vw,108px);max-width:14ch}
+  h1.head .alt{color:var(--copper);font-style:italic;font-weight:600}
+  .sub{margin-top:30px;max-width:46ch;font-size:clamp(17px,2vw,20px);color:#c6c0b6}
+  .hero-cta{margin-top:40px;display:flex;gap:16px;flex-wrap:wrap}
+  .reveal-line{overflow:hidden;display:block}
+  .reveal-line > span{display:block;transform:translateY(105%);transition:transform 1.05s var(--ease)}
+  .ready .reveal-line > span{transform:translateY(0)}
+  .ready .eyebrow{opacity:1;transition:opacity 1s .2s}
+  .scrollcue{position:absolute;bottom:30px;left:50%;transform:translateX(-50%);z-index:2;
+    font-size:11px;letter-spacing:.2em;color:var(--mist);display:flex;flex-direction:column;align-items:center;gap:9px}
+  .scrollcue .bar{width:1px;height:42px;background:linear-gradient(var(--copper),transparent);animation:drop 2.2s var(--ease) infinite}
+  @keyframes drop{0%{transform:scaleY(0);transform-origin:top}40%{transform:scaleY(1);transform-origin:top}60%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+  /* sections */
+  section{position:relative;z-index:2}
+  .pad{padding:140px 0}
+  .lead{font-size:clamp(30px,4.5vw,58px);max-width:18ch;margin-bottom:60px}
+  .lead .mut{color:var(--mist)}
+  .sec-head{display:flex;justify-content:space-between;align-items:end;gap:30px;margin-bottom:64px;flex-wrap:wrap}
+  .reveal{opacity:0;transform:translateY(34px);transition:opacity .9s var(--ease),transform .9s var(--ease)}
+  .reveal.in{opacity:1;transform:none}
+
+  /* outcome cards */
+  .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .card{position:relative;padding:38px 32px;background:linear-gradient(160deg,var(--ink-2),#0b0a10);
+    border:1px solid var(--line);border-radius:24px;overflow:hidden;transition:transform .5s var(--ease),border-color .5s}
+  .card::before{content:"";position:absolute;width:240px;height:240px;top:-90px;right:-90px;border-radius:50%;
+    background:radial-gradient(circle,rgba(217,138,78,.16),transparent 65%);opacity:0;transition:opacity .6s}
+  .card:hover{transform:translateY(-8px);border-color:rgba(217,138,78,.4)}
+  .card:hover::before{opacity:1}
+  .card .blob{width:54px;height:54px;background:linear-gradient(135deg,var(--copper),#7a3d18);margin-bottom:24px;
+    border-radius:58% 42% 50% 50%/52% 52% 48% 48%;animation:cardMorph 9s var(--ease) infinite;box-shadow:0 0 30px rgba(217,138,78,.35)}
+  .card:nth-child(2) .blob{animation-delay:-3s}
+  .card:nth-child(3) .blob{animation-delay:-6s}
+  @keyframes cardMorph{0%,100%{border-radius:58% 42% 50% 50%/52% 52% 48% 48%}33%{border-radius:42% 58% 65% 35%/40% 55% 45% 60%}66%{border-radius:50% 50% 38% 62%/60% 40% 60% 40%}}
+  .card h3{font-size:24px;margin-bottom:12px}
+  .card p{color:var(--mist);font-size:15.5px;margin:0}
+
+  /* process */
+  .steps{display:grid;gap:0;border-top:1px solid var(--line)}
+  .step{display:grid;grid-template-columns:120px 1fr 1.2fr;gap:30px;align-items:center;
+    padding:42px 0;border-bottom:1px solid var(--line);transition:padding-left .5s var(--ease)}
+  .step:hover{padding-left:18px}
+  .step .num{font-family:"Bricolage Grotesque";font-weight:800;font-size:56px;color:transparent;-webkit-text-stroke:1px var(--copper-soft);transition:color .5s}
+  .step:hover .num{color:var(--copper)}
+  .step h3{font-size:30px}
+  .step p{color:var(--mist);margin:0;font-size:16px}
+
+  /* work */
+  .work-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:22px}
+  .work{position:relative;aspect-ratio:16/11;border-radius:24px;overflow:hidden;border:1px solid var(--line);
+    display:flex;align-items:flex-end;padding:30px;cursor:pointer;transition:transform .6s var(--ease)}
+  .work:hover{transform:translateY(-6px)}
+  .work .bg{position:absolute;inset:0;z-index:0;transition:transform 1s var(--ease)}
+  .work:hover .bg{transform:scale(1.06)}
+  .work.w1 .bg{background:radial-gradient(120% 120% at 80% 10%,#1d3b4a,#0a0d12)}
+  .work.w2 .bg{background:radial-gradient(120% 120% at 80% 10%,#4a2f12,#0d0a08)}
+  .work.w3 .bg{background:radial-gradient(120% 120% at 80% 10%,#2c1d3d,#0c0a10)}
+  .work.w4 .bg{background:radial-gradient(120% 120% at 80% 10%,#143424,#080d0a)}
+  .work .blobshape{position:absolute;z-index:1;width:170px;height:170px;top:24px;right:24px;opacity:.85;
+    background:linear-gradient(135deg,var(--copper-soft),transparent);filter:blur(2px);
+    border-radius:60% 40% 30% 70%/60% 30% 70% 40%;animation:cardMorph 11s var(--ease) infinite;mix-blend-mode:screen}
+  .work .meta{position:relative;z-index:2}
+  .work .meta .t{font-family:"Bricolage Grotesque";font-weight:800;font-size:26px}
+  .work .meta .d{color:#b9b3aa;font-size:14px;margin-top:4px}
+  .work .bg{background:#0a0b0f}
+  .work .bg svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+  .work .scrim{position:absolute;inset:0;z-index:1;pointer-events:none;
+    background:linear-gradient(to top,rgba(8,7,11,.92) 0%,rgba(8,7,11,.30) 42%,rgba(8,7,11,.55) 100%)}
+
+  /* device mockup figure */
+  .device{position:relative;margin:0 auto 60px;max-width:760px}
+  .device .frame{position:relative;border-radius:18px;border:1px solid var(--line);
+    background:linear-gradient(160deg,var(--ink-2),#0b0a10);padding:14px 14px 0;overflow:hidden}
+  .device .screen{position:relative;border-radius:10px 10px 0 0;overflow:hidden;border:1px solid var(--line);border-bottom:0}
+  .device .screen svg{display:block;width:100%;height:auto}
+  .device .base{height:16px;border-radius:0 0 16px 16px;
+    background:linear-gradient(180deg,#1a1722,#0b0a10);border:1px solid var(--line);border-top:0;
+    box-shadow:0 30px 60px rgba(0,0,0,.5)}
+  .device .cap{text-align:center;margin-top:20px;color:var(--mist);font-size:14px}
+  .device .cap b{color:var(--bone);font-weight:600}
+
+  /* creed */
+  .creed{background:var(--ink-2);border-radius:32px;padding:80px 60px;border:1px solid var(--line);position:relative;overflow:hidden}
+  .creed::after{content:"";position:absolute;left:-120px;bottom:-120px;width:420px;height:420px;border-radius:50%;
+    background:radial-gradient(circle,rgba(217,138,78,.12),transparent 65%)}
+  .tenets{display:grid;gap:0;position:relative;z-index:2;counter-reset:t}
+  .tenet{display:grid;grid-template-columns:64px 1fr;gap:24px;padding:26px 0;border-top:1px solid var(--line);align-items:baseline}
+  .tenet:first-child{border-top:0}
+  .tenet .k{font-family:"JetBrains Mono";color:var(--copper-soft);font-size:14px}
+  .tenet .v{font-family:"Bricolage Grotesque";font-weight:600;font-size:clamp(20px,2.6vw,30px);letter-spacing:-.01em}
+  .tenet .v b{color:var(--copper);font-weight:800}
+
+  /* contact */
+  .contact{text-align:center;max-width:740px;margin:0 auto}
+  .contact h2{font-size:clamp(38px,6vw,76px);margin-bottom:22px}
+  .form{margin-top:46px;display:grid;grid-template-columns:1fr 1fr;gap:14px;text-align:left}
+  .form .full{grid-column:1/-1}
+  .field{display:flex;flex-direction:column;gap:8px}
+  .field label{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--mist)}
+  .field input,.field select{background:var(--panel);border:1px solid var(--line);color:var(--bone);
+    padding:15px 16px;border-radius:14px;font-size:15px;font-family:inherit;outline:none;transition:border-color .3s}
+  .field input:focus,.field select:focus{border-color:var(--copper)}
+  .form .btn{width:100%;justify-content:center;padding:17px}
+  .formnote{margin-top:14px;font-size:13px;color:var(--mist)}
+
+  /* footer */
+  footer{border-top:1px solid var(--line);margin-top:60px}
+  .foot{display:flex;justify-content:space-between;align-items:center;padding:46px 0;gap:24px;flex-wrap:wrap}
+  .foot .legal{color:var(--mist);font-size:13.5px}
+  .foot .legal b{color:var(--bone);font-weight:600}
+  .foot .fl{display:flex;gap:26px}
+  .foot .fl a{color:var(--mist);font-size:14px;transition:color .3s}
+  .foot .fl a:hover{color:var(--copper-soft)}
+
+  :focus-visible{outline:2px solid var(--copper);outline-offset:3px;border-radius:4px}
+
+  @media(max-width:900px){
+    .navlinks{display:none}
+    .menu-btn{display:block}
+    .cards{grid-template-columns:1fr}
+    .work-grid{grid-template-columns:1fr}
+    .step{grid-template-columns:80px 1fr;gap:18px}
+    .step .desc{grid-column:1/-1;padding-left:98px}
+    .step .num{font-size:42px}
+    .creed{padding:50px 26px}
+    .form{grid-template-columns:1fr}
+    .cursor{display:none}
+    .pad{padding:96px 0}
+  }
+  @media(prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important}
+    html{scroll-behavior:auto}
+    .reveal-line > span{transform:none}
+    .reveal{opacity:1;transform:none}
+    .eyebrow{opacity:1}
+  }
+</style>
+</head>
+<body>
+<div class="grain"></div>
+<div class="cursor" id="cursor"></div>
+
+<header id="hdr">
+  <div class="wrap">
+    <nav>
+      <a class="brand" href="#top"><span class="dot"></span>Creed</a>
+      <div class="navlinks">
+        <a href="#what">What we do</a>
+        <a href="#process">Process</a>
+        <a href="#work">Work</a>
+        <a href="#creed">The Creed</a>
+        <a class="btn nav-cta" href="#contact">Book a call</a>
+      </div>
+      <button class="menu-btn" id="menuBtn" aria-label="Menu">≡</button>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero" id="hero">
+    <canvas id="gl"></canvas>
+    <div class="hero-glow"></div>
+    <div class="wrap">
+      <span class="eyebrow mono">Web design for local trades</span>
+      <h1 class="head">
+        <span class="reveal-line"><span>We don't build</span></span>
+        <span class="reveal-line"><span>websites. We build</span></span>
+        <span class="reveal-line"><span class="alt">phone calls.</span></span>
+      </h1>
+      <p class="sub">Creed designs lead-generating sites for plumbers, electricians, and local trades across the US. The site is the hook. The leads are the product.</p>
+      <div class="hero-cta">
+        <a class="btn" href="#contact">See what we'd build you →</a>
+        <a class="btn ghost" href="#creed">Read the creed</a>
+      </div>
+    </div>
+    <div class="scrollcue mono"><span>Scroll</span><span class="bar"></span></div>
+  </section>
+
+  <section class="pad" id="what">
+    <div class="wrap">
+      <h2 class="lead reveal">A website is a tool. <span class="mut">Yours should pay for itself.</span></h2>
+      <div class="cards">
+        <div class="card reveal">
+          <div class="blob"></div>
+          <h3>Get found</h3>
+          <p>Local SEO and a tuned Google Business Profile so you show up when someone nearby searches your trade. That is where the jobs start.</p>
+        </div>
+        <div class="card reveal">
+          <div class="blob"></div>
+          <h3>Get called</h3>
+          <p>Fast, mobile-first sites with click-to-call and quote forms. Built to turn a visit into a booked job, not just a pretty page.</p>
+        </div>
+        <div class="card reveal">
+          <div class="blob"></div>
+          <h3>Stay ahead</h3>
+          <p>We manage, update, and optimize every month. Competitors come and go. Your phone keeps ringing.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pad" id="process">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="lead reveal" style="margin-bottom:0">How it works</h2>
+        <span class="mono reveal">No risk until you say yes</span>
+      </div>
+      <figure class="device reveal">
+        <div class="frame"><div class="screen"><svg viewBox="0 0 800 550" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" role="img" aria-label="YourBrand sample website">
+<defs><radialGradient id="lpg" cx="78%" cy="14%" r="60%">
+<stop offset="0%" stop-color="#243a44" stop-opacity=".95"/><stop offset="60%" stop-color="#243a44" stop-opacity=".25"/><stop offset="100%" stop-color="#0a0b0f" stop-opacity="0"/></radialGradient></defs>
+<rect width="800" height="550" fill="#0c0d12"/>
+<rect width="800" height="550" fill="url(#lpg)"/>
+<rect width="800" height="40" fill="#131320"/>
+<circle cx="22" cy="20" r="5" fill="#3a3640"/><circle cx="40" cy="20" r="5" fill="#3a3640"/><circle cx="58" cy="20" r="5" fill="#3a3640"/>
+<rect x="92" y="11" width="360" height="18" rx="9" fill="#1c1c26"/>
+<text x="108" y="24" font-family="JetBrains Mono,monospace" font-size="11" fill="#8a8494">yourtradesite.com</text>
+<circle cx="44" cy="78" r="7" fill="#d98a4e"/>
+<text x="60" y="84" font-family="Bricolage Grotesque,Inter,sans-serif" font-weight="800" font-size="22" fill="#ece6dc">YourBrand</text>
+<rect x="596" y="60" width="166" height="38" rx="19" fill="#d98a4e"/>
+<text x="679" y="85" text-anchor="middle" font-family="Inter,sans-serif" font-weight="600" font-size="14" fill="#1a0f06">(555) 010-0199</text>
+<path d="M610 96 C648 150 672 178 672 212 a62 62 0 1 1 -124 0 C548 178 572 150 610 96 Z" fill="none" stroke="#e8a96f" stroke-width="6" opacity=".55"/>
+<text x="40" y="190" font-family="Bricolage Grotesque,Inter,sans-serif" font-weight="800" font-size="52" fill="#ece6dc">Built Before</text>
+<text x="40" y="246" font-family="Bricolage Grotesque,Inter,sans-serif" font-weight="800" font-size="52" fill="#e8a96f">You Pay a Cent</text>
+<text x="40" y="296" font-family="Inter,sans-serif" font-size="18" fill="#b9b3aa">Your name, your town, your services. A real demo.</text>
+<rect x="40" y="332" width="220" height="50" rx="25" fill="#d98a4e"/>
+<text x="150" y="363" text-anchor="middle" font-family="Inter,sans-serif" font-weight="600" font-size="16" fill="#1a0f06">See It Live</text>
+<rect x="40" y="406" width="112" height="34" rx="17" fill="#16161f" stroke="#26222e"/><text x="96" y="428" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" fill="#cfc8bd">Your Services</text><rect x="164" y="406" width="83" height="34" rx="17" fill="#16161f" stroke="#26222e"/><text x="205" y="428" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" fill="#cfc8bd">Your Area</text><rect x="258" y="406" width="112" height="34" rx="17" fill="#16161f" stroke="#26222e"/><text x="314" y="428" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" fill="#cfc8bd">Click to Call</text>
+</svg></div></div>
+        <div class="base"></div>
+        <figcaption class="cap"><b>A real sample, built before you pay.</b> Your business, your town, your services.</figcaption>
+      </figure>
+      <div class="steps">
+        <div class="step reveal">
+          <div class="num">01</div>
+          <h3>We build first</h3>
+          <p class="desc">You get a real, personalized demo of your site before you pay a cent. Your name, your area, your services. Built, not promised.</p>
+        </div>
+        <div class="step reveal">
+          <div class="num">02</div>
+          <h3>You decide</h3>
+          <p class="desc">Like it, we launch it on a domain registered in your name. Don't, no hard feelings and no invoice. The work is already done either way.</p>
+        </div>
+        <div class="step reveal">
+          <div class="num">03</div>
+          <h3>We grow it</h3>
+          <p class="desc">Once you are live, we rank you locally and keep the leads coming. For a fraction of what most US agencies charge for the same work.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pad" id="work">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 class="lead reveal" style="margin-bottom:0">The kind of sites we build</h2>
+        <span class="mono reveal">Trade-specific, lead-first</span>
+      </div>
+      <div class="work-grid">
+        <div class="work w1 reveal"><div class="bg"><svg viewBox="0 0 800 550" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" role="img" aria-label="RapidFlow sample website">
+<defs><radialGradient id="p1g" cx="78%" cy="14%" r="60%">
+<stop offset="0%" stop-color="#1d3b4a" stop-opacity=".95"/><stop offset="60%" stop-color="#1d3b4a" stop-opacity=".25"/><stop offset="100%" stop-color="#0a0b0f" stop-opacity="0"/></radialGradient></defs>
+<rect width="800" height="550" fill="#0c0d12"/>
+<rect width="800" height="550" fill="url(#p1g)"/>
+<rect width="800" height="40" fill="#131320"/>
+<circle cx="22" cy="20" r="5" fill="#3a3640"/><circle cx="40" cy="20" r="5" fill="#3a3640"/><circle cx="58" cy="20" r="5" fill="#3a3640"/>
+<rect x="92" y="11" width="360" height="18" rx="9" fill="#1c1c26"/>
+<text x="108" y="24" font-family="JetBrains Mono,monospace" font-size="11" fill="#8a8494">rapidflowplumbing.com</text>
+<circle cx="44" cy="78" r="7" fill="#d98a4e"/>
+<text x="60" y="84" font-family="Bricolage Grotesque,Inter,sans-serif" font-weight="800" font-size="22" fill="#ece6dc">RapidFlow</text>
+<rect x="596" y="60" width="166" height="38" rx="19" fill="#d98a4e"/>
+<text x="679" y="85" text-anchor="middle" font-family="Inter,sans-serif" font-weight="600" font-size="14" fill="#1a0f06">(555) 010-0199</text>
+<path d="M610 96 C648 150 672 178 672 212 a62 62 0 1 1 -124 0 C548 178 572 150 610 96 Z" fill="none" stroke="#e8a96f" stroke-width="6" opacity=".55"/>
+<text x="40" y="190" font-family="Bricolage Grotesque,Inter,sans-serif" font-weight="800" font-size="52" fill="#ece6dc">24/7 Emergency</text>
+<text x="40" y="246" font-family="Bricolage Grotesque,Inter,sans-serif" font-weight="800" font-size="52" fill="#e8a96f">Plumbing Repair</text>
+<text x="40" y="296" font-family="Inter,sans-serif" font-size="18" fill="#b9b3aa">Licensed local plumbers, on call across your area.</text>
+<rect x="40" y="332" width="220" height="50" rx="25" fill="#d98a4e"/>
+<text x="150" y="363" text-anchor="middle" font-family="Inter,sans-serif" font-weight="600" font-size="16" fill="#1a0f06">Get a Free Quote</text>
+<rect x="40" y="406" width="97" height="34" rx="17" fill="#16161f" stroke="#26222e"/><text x="89" y="428" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" fill="#cfc8bd">Leak Repair</text><rect x="149" y="406" width="119" height="34" rx="17" fill="#16161f" stroke="#26222e"/><text x="209" y="428" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" fill="#cfc8bd">Drain Cleaning</text><rect x="280" y="406" width="112" height="34" rx="17" fill="#16161f" stroke="#26222e"/><text x="336" y="428" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" fill="#cfc8bd">Water Heaters</text>
+</svg></div><div class="scrim"></div><div class="blobshape"></div><div class="meta"><div class="t">Plumbing</div><div class="d">Emergency call-outs, service-area pages, instant quote forms.</div></div></div>
+        <div class="work w2 reveal"><div class="bg"><svg viewBox="0 0 800 550" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" role="img" aria-label="BrightSpark sample website">
+<defs><radialGradient id="p2g" cx="78%" cy="14%" r="60%">
+<stop offset="0%" stop-color="#4a2f12" stop-opacity=".95"/><stop offset="60%" stop-color="#4a2f12" stop-opacity=".25"/><stop offset="100%" stop-color="#0a0b0f" stop-opacity="0"/></radialGradient></defs>
+<rect width="800" height="550" fill="#0c0d12"/>
+<rect width="800" height="550" fill="url(#p2g)"/>
+<rect width="800" height="40" fill="#131320"/>
+<circle cx="22" cy="20" r="5" fill="#3a3640"/><circle cx="40" cy="20" r="5" fill="#3a3640"/><circle cx="58" cy="20" r="5" fill="#3a3640"/>
+<rect x="92" y="11" width="360" height="18" rx="9" fill="#1c1c26"/>
+<text x="108" y="24" font-family="JetBrains Mono,monospace" font-size="11" fill="#8a8494">brightsparkelectric.com</text>
+<circle cx="44" cy="78" r="7" fill="#d98a4e"/>
+<text x="60" y="84" font-family="Bricolage Grotesque,Inter,sans-serif" font-weight="800" font-size="22" fill="#ece6dc">BrightSpark</text>
+<rect x="596" y="60" width="166" height="38" rx="19" fill="#d98a4e"/>
+<text x="679" y="85" text-anchor="middle" font-family="Inter,sans-serif" font-weight="600" font-size="14" fill="#1a0f06">(555) 010-0199</text>
+<path d="M636 92 L566 214 L612 214 L590 312 L676 176 L626 176 Z" fill="none" stroke="#e8a96f" stroke-width="6" stroke-linejoin="round" opacity=".55"/>
+<text x="40" y="190" font-family="Bricolage Grotesque,Inter,sans-serif" font-weight="800" font-size="52" fill="#ece6dc">Licensed</text>
+<text x="40" y="246" font-family="Bricolage Grotesque,Inter,sans-serif" font-weight="800" font-size="52" fill="#e8a96f">Electricians</text>
+<text x="40" y="296" font-family="Inter,sans-serif" font-size="18" fill="#b9b3aa">Safe, code-compliant work done right the first time.</text>
+<rect x="40" y="332" width="220" height="50" rx="25" fill="#d98a4e"/>
+<text x="150" y="363" text-anchor="middle" font-family="Inter,sans-serif" font-weight="600" font-size="16" fill="#1a0f06">Book an Electrician</text>
+<rect x="40" y="406" width="119" height="34" rx="17" fill="#16161f" stroke="#26222e"/><text x="99" y="428" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" fill="#cfc8bd">Panel Upgrades</text><rect x="171" y="406" width="76" height="34" rx="17" fill="#16161f" stroke="#26222e"/><text x="209" y="428" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" fill="#cfc8bd">Lighting</text><rect x="258" y="406" width="97" height="34" rx="17" fill="#16161f" stroke="#26222e"/><text x="307" y="428" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" fill="#cfc8bd">EV Chargers</text>
+</svg></div><div class="scrim"></div><div class="blobshape"></div><div class="meta"><div class="t">Electrical</div><div class="d">Licensed, trusted, found first. Built around local search.</div></div></div>
+        <div class="work w3 reveal"><div class="bg"><svg viewBox="0 0 800 550" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" role="img" aria-label="ComfortTech sample website">
+<defs><radialGradient id="p3g" cx="78%" cy="14%" r="60%">
+<stop offset="0%" stop-color="#2c1d3d" stop-opacity=".95"/><stop offset="60%" stop-color="#2c1d3d" stop-opacity=".25"/><stop offset="100%" stop-color="#0a0b0f" stop-opacity="0"/></radialGradient></defs>
+<rect width="800" height="550" fill="#0c0d12"/>
+<rect width="800" height="550" fill="url(#p3g)"/>
+<rect width="800" height="40" fill="#131320"/>
+<circle cx="22" cy="20" r="5" fill="#3a3640"/><circle cx="40" cy="20" r="5" fill="#3a3640"/><circle cx="58" cy="20" r="5" fill="#3a3640"/>
+<rect x="92" y="11" width="360" height="18" rx="9" fill="#1c1c26"/>
+<text x="108" y="24" font-family="JetBrains Mono,monospace" font-size="11" fill="#8a8494">comforttechhvac.com</text>
+<circle cx="44" cy="78" r="7" fill="#d98a4e"/>
+<text x="60" y="84" font-family="Bricolage Grotesque,Inter,sans-serif" font-weight="800" font-size="22" fill="#ece6dc">ComfortTech</text>
+<rect x="596" y="60" width="166" height="38" rx="19" fill="#d98a4e"/>
+<text x="679" y="85" text-anchor="middle" font-family="Inter,sans-serif" font-weight="600" font-size="14" fill="#1a0f06">(555) 010-0199</text>
+<circle cx="612" cy="190" r="34" fill="none" stroke="#e8a96f" stroke-width="6" opacity=".55"/><line x1="612" y1="190" x2="674.0 " y2="190.0" stroke="#e8a96f" stroke-width="5" opacity=".5"/><line x1="612" y1="190" x2="655.8405399156967 " y2="233.84070095128737" stroke="#e8a96f" stroke-width="5" opacity=".5"/><line x1="612" y1="190" x2="611.9997722612836 " y2="251.99999999958175" stroke="#e8a96f" stroke-width="5" opacity=".5"/><line x1="612" y1="190" x2="568.1591380137135 " y2="233.84037887951445" stroke="#e8a96f" stroke-width="5" opacity=".5"/><line x1="612" y1="190" x2="550.000000001673 " y2="189.9995445225672" stroke="#e8a96f" stroke-width="5" opacity=".5"/><line x1="612" y1="190" x2="568.1597821572593 " y2="146.15897697930578" stroke="#e8a96f" stroke-width="5" opacity=".5"/><line x1="612" y1="190" x2="612.0006832161492 " y2="128.0000000037644" stroke="#e8a96f" stroke-width="5" opacity=".5"/><line x1="612" y1="190" x2="655.8411840545103 " y2="146.15994319462456" stroke="#e8a96f" stroke-width="5" opacity=".5"/>
+<text x="40" y="190" font-family="Bricolage Grotesque,Inter,sans-serif" font-weight="800" font-size="52" fill="#ece6dc">Heating and</text>
+<text x="40" y="246" font-family="Bricolage Grotesque,Inter,sans-serif" font-weight="800" font-size="52" fill="#e8a96f">Cooling Experts</text>
+<text x="40" y="296" font-family="Inter,sans-serif" font-size="18" fill="#b9b3aa">Stay comfortable year round with fast service.</text>
+<rect x="40" y="332" width="220" height="50" rx="25" fill="#d98a4e"/>
+<text x="150" y="363" text-anchor="middle" font-family="Inter,sans-serif" font-weight="600" font-size="16" fill="#1a0f06">Schedule Service</text>
+<rect x="40" y="406" width="83" height="34" rx="17" fill="#16161f" stroke="#26222e"/><text x="81" y="428" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" fill="#cfc8bd">AC Repair</text><rect x="135" y="406" width="76" height="34" rx="17" fill="#16161f" stroke="#26222e"/><text x="173" y="428" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" fill="#cfc8bd">Furnaces</text><rect x="222" y="406" width="76" height="34" rx="17" fill="#16161f" stroke="#26222e"/><text x="260" y="428" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" fill="#cfc8bd">Tune-Ups</text>
+</svg></div><div class="scrim"></div><div class="blobshape"></div><div class="meta"><div class="t">HVAC</div><div class="d">Seasonal demand captured with fast booking and clear pricing.</div></div></div>
+        <div class="work w4 reveal"><div class="bg"><svg viewBox="0 0 800 550" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" role="img" aria-label="SummitLine sample website">
+<defs><radialGradient id="p4g" cx="78%" cy="14%" r="60%">
+<stop offset="0%" stop-color="#143424" stop-opacity=".95"/><stop offset="60%" stop-color="#143424" stop-opacity=".25"/><stop offset="100%" stop-color="#0a0b0f" stop-opacity="0"/></radialGradient></defs>
+<rect width="800" height="550" fill="#0c0d12"/>
+<rect width="800" height="550" fill="url(#p4g)"/>
+<rect width="800" height="40" fill="#131320"/>
+<circle cx="22" cy="20" r="5" fill="#3a3640"/><circle cx="40" cy="20" r="5" fill="#3a3640"/><circle cx="58" cy="20" r="5" fill="#3a3640"/>
+<rect x="92" y="11" width="360" height="18" rx="9" fill="#1c1c26"/>
+<text x="108" y="24" font-family="JetBrains Mono,monospace" font-size="11" fill="#8a8494">summitlineroofing.com</text>
+<circle cx="44" cy="78" r="7" fill="#d98a4e"/>
+<text x="60" y="84" font-family="Bricolage Grotesque,Inter,sans-serif" font-weight="800" font-size="22" fill="#ece6dc">SummitLine</text>
+<rect x="596" y="60" width="166" height="38" rx="19" fill="#d98a4e"/>
+<text x="679" y="85" text-anchor="middle" font-family="Inter,sans-serif" font-weight="600" font-size="14" fill="#1a0f06">(555) 010-0199</text>
+<path d="M540 214 L612 150 L684 214" fill="none" stroke="#e8a96f" stroke-width="6" stroke-linejoin="round" opacity=".55"/><rect x="560" y="214" width="104" height="86" fill="none" stroke="#e8a96f" stroke-width="6" opacity=".45"/>
+<text x="40" y="190" font-family="Bricolage Grotesque,Inter,sans-serif" font-weight="800" font-size="52" fill="#ece6dc">Roofing You</text>
+<text x="40" y="246" font-family="Bricolage Grotesque,Inter,sans-serif" font-weight="800" font-size="52" fill="#e8a96f">Can Trust</text>
+<text x="40" y="296" font-family="Inter,sans-serif" font-size="18" fill="#b9b3aa">Storm-ready roofs built to last decades.</text>
+<rect x="40" y="332" width="220" height="50" rx="25" fill="#d98a4e"/>
+<text x="150" y="363" text-anchor="middle" font-family="Inter,sans-serif" font-weight="600" font-size="16" fill="#1a0f06">Free Inspection</text>
+<rect x="40" y="406" width="68" height="34" rx="17" fill="#16161f" stroke="#26222e"/><text x="74" y="428" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" fill="#cfc8bd">Repairs</text><rect x="120" y="406" width="97" height="34" rx="17" fill="#16161f" stroke="#26222e"/><text x="169" y="428" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" fill="#cfc8bd">Replacement</text><rect x="230" y="406" width="104" height="34" rx="17" fill="#16161f" stroke="#26222e"/><text x="282" y="428" text-anchor="middle" font-family="Inter,sans-serif" font-size="13" fill="#cfc8bd">Storm Damage</text>
+</svg></div><div class="scrim"></div><div class="blobshape"></div><div class="meta"><div class="t">Roofing & more</div><div class="d">Big-ticket trades that live or die by the next phone call.</div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pad" id="creed">
+    <div class="wrap">
+      <div class="creed reveal">
+        <span class="mono">The creed</span>
+        <div class="tenets" style="margin-top:30px">
+          <div class="tenet"><div class="k">01</div><div class="v">The phone is the metric. If it doesn't <b>ring more</b>, we failed.</div></div>
+          <div class="tenet"><div class="k">02</div><div class="v">A <b>demo before a deal.</b> We build first so you risk nothing.</div></div>
+          <div class="tenet"><div class="k">03</div><div class="v">Your <b>domain is yours,</b> registered in your name. Always.</div></div>
+          <div class="tenet"><div class="k">04</div><div class="v">No jargon. No lock-in. <b>Plain English,</b> month to month.</div></div>
+          <div class="tenet"><div class="k">05</div><div class="v">We go where the leads are. <b>Small towns,</b> real results.</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pad" id="contact">
+    <div class="wrap">
+      <div class="contact reveal">
+        <span class="mono">Let's talk</span>
+        <h2 style="margin-top:18px">Ready to get the phone ringing?</h2>
+        <p class="sub" style="margin:0 auto;max-width:42ch">Tell us your trade and where you work. We will build you a sample site and call you to walk through it.</p>
+        <form class="form" id="leadForm">
+          <div class="field"><label for="name">Your name</label><input id="name" name="name" required></div>
+          <div class="field"><label for="biz">Business name</label><input id="biz" name="business" required></div>
+          <div class="field"><label for="trade">Trade</label>
+            <select id="trade" name="trade">
+              <option>Plumbing</option><option>Electrical</option><option>HVAC</option>
+              <option>Roofing</option><option>Landscaping</option><option>Other trade</option>
+            </select>
+          </div>
+          <div class="field"><label for="phone">Phone</label><input id="phone" name="phone" type="tel" required></div>
+          <div class="field full"><label for="city">City &amp; state</label><input id="city" name="city" placeholder="e.g. Lufkin, TX" required></div>
+          <button class="btn full" type="submit" id="submitBtn">Build my sample site →</button>
+        </form>
+        <p class="formnote" id="formnote">No spam. No pressure. We do the work, then you decide.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot">
+      <div class="legal"><b>Creed Web Design</b> · A project of Shah X LLC · © <span id="yr"></span></div>
+      <div class="fl">
+        <a href="#what">What we do</a><a href="#process">Process</a><a href="#creed">The Creed</a><a href="#contact">Contact</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('yr').textContent = new Date().getFullYear();
+  const reduce = matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  // header state
+  const hdr = document.getElementById('hdr');
+  addEventListener('scroll', ()=>hdr.classList.toggle('scrolled', scrollY>30), {passive:true});
+
+  // hero reveal
+  addEventListener('load', ()=>document.getElementById('hero').classList.add('ready'));
+  setTimeout(()=>document.getElementById('hero').classList.add('ready'), 200);
+
+  // scroll reveal
+  const io = new IntersectionObserver((es)=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} }), {threshold:.14});
+  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+  // cursor glow + magnetic
+  const cur = document.getElementById('cursor');
+  let cx=innerWidth/2, cy=innerHeight/2, tx=cx, ty=cy;
+  if(!reduce && matchMedia('(pointer:fine)').matches){
+    addEventListener('mousemove', e=>{ tx=e.clientX; ty=e.clientY; });
+    (function loop(){ cx+=(tx-cx)*.12; cy+=(ty-cy)*.12; cur.style.transform=`translate(${cx}px,${cy}px) translate(-50%,-50%)`; requestAnimationFrame(loop); })();
+  } else { cur.style.display='none'; }
+
+  // mobile menu (simple smooth-scroll already via anchors)
+  document.getElementById('menuBtn').addEventListener('click', ()=>location.hash='#contact');
+
+  // form (wire Web3Forms by pasting your access key below)
+  const WEB3FORMS_KEY = ""; // <-- paste access key from web3forms.com to enable email delivery
+  document.getElementById('leadForm').addEventListener('submit', async (e)=>{
+    e.preventDefault();
+    const note=document.getElementById('formnote'); const btn=document.getElementById('submitBtn');
+    const data=Object.fromEntries(new FormData(e.target).entries());
+    if(!WEB3FORMS_KEY){ note.textContent="Form is in preview mode. Add a Web3Forms key to receive submissions."; note.style.color="var(--copper-soft)"; return; }
+    btn.textContent="Sending…";
+    try{
+      const r=await fetch("https://api.web3forms.com/submit",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({access_key:WEB3FORMS_KEY,subject:"New Creed lead",...data})});
+      const j=await r.json();
+      if(j.success){ e.target.reset(); btn.textContent="Sent ✓"; note.textContent="Got it. We will build your sample and call you soon."; note.style.color="var(--copper-soft)"; }
+      else throw 0;
+    }catch{ btn.textContent="Build my sample site →"; note.textContent="Something went wrong. Email us instead and we will jump on it."; }
+  });
+</script>
+
+<script type="module">
+  // ---- 3D morphing hero object (graceful fallback if WebGL/CDN fails) ----
+  const reduceMotion = matchMedia('(prefers-reduced-motion:reduce)').matches;
+  const canvas = document.getElementById('gl');
+  let three;
+  try { three = await import('https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js'); }
+  catch(err){ canvas.style.display='none'; }
+
+  if(three){
+    const THREE = three;
+    const renderer = new THREE.WebGLRenderer({canvas, antialias:true, alpha:true, powerPreference:'high-performance'});
+    renderer.setClearColor(0x000000, 0);
+    const setSize=()=>{ renderer.setPixelRatio(Math.min(devicePixelRatio,2)); renderer.setSize(canvas.clientWidth, canvas.clientHeight, false); };
+    const scene = new THREE.Scene();
+    const cam = new THREE.PerspectiveCamera(42, 1, .1, 100); cam.position.z = 3.2;
+
+    const isMobile = innerWidth < 760;
+    const detail = isMobile ? 28 : 64;
+    const geo = new THREE.IcosahedronGeometry(1, detail);
+
+    const SN = `
+      vec3 mod289(vec3 x){return x-floor(x*(1.0/289.0))*289.0;}
+      vec4 mod289(vec4 x){return x-floor(x*(1.0/289.0))*289.0;}
+      vec4 permute(vec4 x){return mod289(((x*34.0)+1.0)*x);}
+      vec4 taylorInvSqrt(vec4 r){return 1.79284291400159-0.85373472095314*r;}
+      float snoise(vec3 v){
+        const vec2 C=vec2(1.0/6.0,1.0/3.0); const vec4 D=vec4(0.0,0.5,1.0,2.0);
+        vec3 i=floor(v+dot(v,C.yyy)); vec3 x0=v-i+dot(i,C.xxx);
+        vec3 g=step(x0.yzx,x0.xyz); vec3 l=1.0-g; vec3 i1=min(g.xyz,l.zxy); vec3 i2=max(g.xyz,l.zxy);
+        vec3 x1=x0-i1+C.xxx; vec3 x2=x0-i2+C.yyy; vec3 x3=x0-D.yyy;
+        i=mod289(i);
+        vec4 p=permute(permute(permute(i.z+vec4(0.0,i1.z,i2.z,1.0))+i.y+vec4(0.0,i1.y,i2.y,1.0))+i.x+vec4(0.0,i1.x,i2.x,1.0));
+        float n_=0.142857142857; vec3 ns=n_*D.wyz-D.xzx;
+        vec4 j=p-49.0*floor(p*ns.z*ns.z);
+        vec4 x_=floor(j*ns.z); vec4 y_=floor(j-7.0*x_);
+        vec4 x=x_*ns.x+ns.yyyy; vec4 y=y_*ns.x+ns.yyyy; vec4 h=1.0-abs(x)-abs(y);
+        vec4 b0=vec4(x.xy,y.xy); vec4 b1=vec4(x.zw,y.zw);
+        vec4 s0=floor(b0)*2.0+1.0; vec4 s1=floor(b1)*2.0+1.0; vec4 sh=-step(h,vec4(0.0));
+        vec4 a0=b0.xzyw+s0.xzyw*sh.xxyy; vec4 a1=b1.xzyw+s1.xzyw*sh.zzww;
+        vec3 p0=vec3(a0.xy,h.x); vec3 p1=vec3(a0.zw,h.y); vec3 p2=vec3(a1.xy,h.z); vec3 p3=vec3(a1.zw,h.w);
+        vec4 norm=taylorInvSqrt(vec4(dot(p0,p0),dot(p1,p1),dot(p2,p2),dot(p3,p3)));
+        p0*=norm.x;p1*=norm.y;p2*=norm.z;p3*=norm.w;
+        vec4 m=max(0.6-vec4(dot(x0,x0),dot(x1,x1),dot(x2,x2),dot(x3,x3)),0.0); m=m*m;
+        return 42.0*dot(m*m,vec4(dot(p0,x0),dot(p1,x1),dot(p2,x2),dot(p3,x3)));
+      }`;
+
+    const uniforms = {
+      uTime:{value:0}, uAmp:{value:.22}, uFreq:{value:1.4}, uWobble:{value:.10},
+      uMorph:{value:0}, uHue:{value:0},
+      uDeep:{value:new THREE.Color(0x2a1206)}, uCopper:{value:new THREE.Color(0xd98a4e)},
+      uGlow:{value:new THREE.Color(0xffb877)}, uCool:{value:new THREE.Color(0x3f7d86)}
+    };
+
+    const mat = new THREE.ShaderMaterial({
+      uniforms,
+      vertexShader:`
+        uniform float uTime,uAmp,uFreq,uWobble,uMorph;
+        varying vec3 vNormal,vView; varying float vDisp;
+        ${SN}
+        float fbm(vec3 p){ float v=0.0,a=0.5; for(int i=0;i<4;i++){ v+=a*snoise(p); p*=2.0; a*=0.5; } return v; }
+        float disp(vec3 d){
+          float t=uTime*0.20;
+          float n=fbm(d*uFreq+vec3(0.0,t,0.0));
+          float w=snoise(d*1.3+vec3(t*0.6,0.0,t*0.3));
+          return (n*uAmp + w*uWobble)*(1.0+uMorph*1.1);
+        }
+        vec3 dp(vec3 p){ vec3 d=normalize(p); return d*(1.0+disp(d)); }
+        void main(){
+          vec3 dir=normalize(position);
+          vec3 P=dp(position);
+          vec3 ref=abs(dir.y)<0.99?vec3(0.0,1.0,0.0):vec3(1.0,0.0,0.0);
+          vec3 t1=normalize(cross(dir,ref)); vec3 t2=cross(dir,t1);
+          float e=0.02;
+          vec3 Pa=dp(position+t1*e); vec3 Pb=dp(position+t2*e);
+          vec3 n=normalize(cross(Pa-P,Pb-P)); if(dot(n,dir)<0.0)n=-n;
+          vDisp=length(P)-1.0;
+          vec4 mv=modelViewMatrix*vec4(P,1.0);
+          vNormal=normalize(normalMatrix*n); vView=normalize(-mv.xyz);
+          gl_Position=projectionMatrix*mv;
+        }`,
+      fragmentShader:`
+        precision highp float;
+        uniform float uTime,uHue; uniform vec3 uDeep,uCopper,uGlow,uCool;
+        varying vec3 vNormal,vView; varying float vDisp;
+        vec3 pal(float t){ vec3 a=vec3(0.5,0.42,0.35),b=vec3(0.5,0.42,0.4),c=vec3(1.0),d=vec3(0.0,0.12,0.30); return a+b*cos(6.28318*(c*t+d)); }
+        void main(){
+          vec3 N=normalize(vNormal), V=normalize(vView);
+          float f=pow(1.0-clamp(dot(N,V),0.0,1.0),2.4);
+          vec3 base=mix(uDeep,uCopper,smoothstep(0.0,0.7,f));
+          vec3 irid=mix(pal(f*1.1+vDisp*1.5+uHue),uCool,0.25);
+          vec3 col=mix(base,irid,f*0.55);
+          col+=uGlow*pow(f,5.0)*1.7;
+          col+=uCopper*0.05;
+          col=pow(clamp(col,0.0,1.6),vec3(0.92));
+          gl_FragColor=vec4(col,1.0);
+        }`
+    });
+
+    const mesh = new THREE.Mesh(geo, mat); scene.add(mesh);
+
+    function layout(){
+      const w=innerWidth;
+      const cw=canvas.clientWidth||w, ch=canvas.clientHeight||innerHeight;
+      cam.aspect=cw/ch; cam.updateProjectionMatrix();
+      const mobile=w<760;
+      mesh.position.x = mobile?0:1.05;
+      mesh.position.y = mobile?0.7:0;
+      mesh.scale.setScalar(mobile?0.92:1.18);
+      setSize();
+    }
+    layout(); addEventListener('resize', layout, {passive:true});
+
+    let mx=0,my=0,tmx=0,tmy=0;
+    if(!reduceMotion){
+      addEventListener('mousemove', e=>{ tmx=(e.clientX/innerWidth-0.5); tmy=(e.clientY/innerHeight-0.5); });
+    }
+
+    let scrollP=0;
+    const onScroll=()=>{ scrollP = Math.min(1, scrollY/(innerHeight*1.2)); };
+    onScroll(); addEventListener('scroll', onScroll, {passive:true});
+
+    let running=true;
+    document.addEventListener('visibilitychange', ()=>{ running=!document.hidden; if(running) clk.start(), tick(); });
+    const clk=new THREE.Clock();
+
+    function tick(){
+      if(!running) return;
+      requestAnimationFrame(tick);
+      const t=clk.getElapsedTime();
+      uniforms.uTime.value = reduceMotion ? 0.4 : t;
+      // morph as you scroll
+      uniforms.uMorph.value += ((scrollP) - uniforms.uMorph.value)*0.05;
+      uniforms.uAmp.value = 0.22 + scrollP*0.14;
+      uniforms.uHue.value += 0.0008;
+      mx+=(tmx-mx)*0.05; my+=(tmy-my)*0.05;
+      mesh.rotation.y = (reduceMotion?0:t*0.18) + mx*0.6;
+      mesh.rotation.x = my*0.5 + scrollP*0.4;
+      renderer.render(scene, cam);
+    }
+    tick();
+  }
+</script>
+</body>
+</html>
