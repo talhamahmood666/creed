@@ -1,0 +1,16 @@
+{
+  "framework": null,
+  "buildCommand": null,
+  "outputDirectory": ".",
+  "devCommand": null,
+  "cleanUrls": false,
+  "trailingSlash": false,
+  "rewrites": [
+    { "source": "/pricing", "destination": "/pricing.html" },
+    { "source": "/privacy", "destination": "/privacy.html" },
+    { "source": "/refund", "destination": "/refund.html" },
+    { "source": "/tos", "destination": "/tos.html" },
+    { "source": "/terms", "destination": "/tos.html" },
+    { "source": "/client/:slug", "destination": "/client/:slug.html" }
+  ]
+}

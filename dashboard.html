@@ -1,175 +1,333 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Client Dashboard · Creed AI Agency</title>
-<meta name="robots" content="noindex">
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Creed AI - Master Dashboard</title>
 <style>
-  :root{--ink:#08070b;--ink-2:#0f0d14;--panel:#15121c;--bone:#ece6dc;--mist:#8a8494;--copper:#d98a4e;--copper-soft:#e8a96f;--line:rgba(236,230,220,.10)}
-  *{box-sizing:border-box}
-  body{margin:0;background:var(--ink);color:var(--bone);font-family:"Inter",system-ui,sans-serif;font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
-  a{color:var(--copper-soft);text-decoration:none}
-  .wrap{max-width:1100px;margin:0 auto;padding:0 24px}
-  header{background:rgba(8,7,11,.8);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);padding:18px 0}
-  header h1{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:22px;margin:0}
-  header h1 span{color:var(--copper)}
-  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:40px 0}
-  .stat{background:var(--ink-2);border:1px solid var(--line);border-radius:16px;padding:20px;text-align:center}
-  .stat-num{font-family:"Bricolage Grotesque";font-weight:800;font-size:32px;color:var(--copper)}
-  .stat-label{font-size:12px;color:var(--mist);margin-top:4px;letter-spacing:.05em;text-transform:uppercase}
-  table{width:100%;border-collapse:collapse;margin-top:20px;font-size:14px}
-  th{text-align:left;padding:14px 12px;border-bottom:2px solid var(--line);color:var(--mist);font-weight:500;font-size:12px;text-transform:uppercase;letter-spacing:.1em}
-  td{padding:12px;border-bottom:1px solid var(--line);color:#c6c0b6}
-  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;letter-spacing:.05em}
-  .badge.new{background:rgba(107,114,255,.15);color:#8b83ff}
-  .badge.sent{background:rgba(217,138,78,.15);color:var(--copper-soft)}
-  .badge.replied{background:rgba(81,207,102,.15);color:#51cf66}
-  .badge.done{background:rgba(255,107,107,.15);color:#ff6b6b}
-  .badge.booked{background:rgba(56,189,248,.15);color:#38bdf8}
-  .filters{display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap}
-  .filter-btn{padding:8px 18px;border:1px solid var(--line);border-radius:20px;background:transparent;color:var(--mist);font-size:13px;cursor:pointer;transition:all .2s}
-  .filter-btn.active,.filter-btn:hover{border-color:var(--copper);color:var(--bone);background:rgba(217,138,78,.1)}
-  .export-btn{padding:8px 18px;border:1px solid var(--copper);border-radius:20px;background:rgba(217,138,78,.1);color:var(--copper-soft);font-size:13px;cursor:pointer;margin-left:auto}
-  .export-btn:hover{background:var(--copper);color:#1a0f06}
-  footer{padding:40px 0;border-top:1px solid var(--line);margin-top:60px;color:var(--mist);font-size:13px;text-align:center}
-  .last-updated{color:var(--mist);font-size:12px;margin-top:8px}
-  @media(max-width:700px){.stats{grid-template-columns:repeat(2,1fr)}}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f1f5f9;color:#0f172a;}
+.hd{background:linear-gradient(135deg,#0f172a,#1e3a5f);color:white;padding:24px 28px;}
+.hd h1{font-size:20px;font-weight:600;}
+.hd p{color:#94a3b8;font-size:13px;margin-top:3px;}
+.sr{display:flex;gap:14px;padding:14px 28px;background:white;border-bottom:1px solid #e2e8f0;flex-wrap:wrap;}
+.sb{flex:1;min-width:110px;}
+.sn{font-size:26px;font-weight:700;color:#0f172a;}
+.sl{font-size:11px;color:#64748b;text-transform:uppercase;letter-spacing:0.5px;margin-top:2px;}
+.c{max-width:1300px;margin:16px auto;padding:0 16px;}
+.cd{background:white;border-radius:8px;box-shadow:0 1px 2px rgba(0,0,0,0.05);margin-bottom:16px;overflow-x:auto;}
+.ct{padding:12px 16px;font-size:14px;font-weight:600;color:#0f172a;border-bottom:1px solid #e2e8f0;background:#f8fafc;}
+table{width:100%;border-collapse:collapse;min-width:500px;}
+th{text-align:left;padding:10px 14px;font-size:10px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:0.8px;background:#f8fafc;border-bottom:2px solid #e2e8f0;}
+.td{padding:8px 14px;border-bottom:1px solid #f1f5f9;font-size:13px;}
+.td-muted{color:#64748b;}
+.td-small{font-size:12px;}
+.td-num{font-weight:600;}
+.td-green{color:#059669;}
+.cname{font-weight:600;color:#0f172a;}
+.ctarget{font-size:11px;color:#64748b;margin-top:2px;}
+.tier-badge{padding:2px 8px;border-radius:6px;font-size:11px;font-weight:600;border:1px solid;text-transform:capitalize;}
+.badge{padding:2px 8px;border-radius:6px;font-size:11px;font-weight:600;border:1px solid;}
+.lnk{color:#3b82f6;text-decoration:none;font-weight:500;font-size:13px;}
+.em{text-align:center;padding:40px;color:#94a3b8;font-size:14px;}
+.ft{text-align:center;padding:20px;color:#94a3b8;font-size:11px;}
+@media(max-width:600px){.hd{padding:18px 16px;}.sr{padding:10px 16px;flex-direction:column;}.sb{min-width:auto;}.c{padding:0 8px;}th,td{padding:6px 8px;font-size:12px;}}
 </style>
 </head>
 <body>
-
-<header>
-  <div class="wrap">
-    <h1>CREED <span>AI AGENCY</span> · Client Dashboard</h1>
-  </div>
-</header>
-
-<main class="wrap">
-  <div class="stats" id="stats">
-    <div class="stat"><div class="stat-num" id="totalLeads">0</div><div class="stat-label">Total Leads</div></div>
-    <div class="stat"><div class="stat-num" id="sentCount">0</div><div class="stat-label">Emails Sent</div></div>
-    <div class="stat"><div class="stat-num" id="repliedCount">0</div><div class="stat-label">Replies</div></div>
-    <div class="stat"><div class="stat-num" id="bookedCount">0</div><div class="stat-label">Booked</div></div>
-  </div>
-
-  <div class="filters">
-    <button class="filter-btn active" data-filter="all">All</button>
-    <button class="filter-btn" data-filter="New">New</button>
-    <button class="filter-btn" data-filter="Sent">Sent</button>
-    <button class="filter-btn" data-filter="Replied">Replied</button>
-    <button class="filter-btn" data-filter="Booked">Booked</button>
-    <button class="export-btn" onclick="exportCSV()">Download CSV</button>
-  </div>
-
-  <div style="overflow-x:auto">
-    <table>
-      <thead>
+<div class="hd">
+    <h1>Creed AI Agency</h1>
+    <p>Master Dashboard &middot; 2026-07-12 21:13 UTC</p>
+</div>
+<div class="sr">
+    <div class="sb"><div class="sn">1</div><div class="sl">Clients</div></div>
+    <div class="sb"><div class="sn">37</div><div class="sl">Prospects</div></div>
+    <div class="sb"><div class="sn">0</div><div class="sl">Active</div></div>
+    <div class="sb"><div class="sn">0</div><div class="sl">Booked</div></div>
+</div>
+<div class="c">
+    <div class="cd">
+        <div class="ct">Clients</div>
+        <table>
+            <thead><tr><th>Client</th><th>Tier</th><th>Prospects</th><th>Active</th><th>Booked</th><th></th></tr></thead>
+            <tbody>
         <tr>
-          <th>Prospect</th>
-          <th>Business</th>
-          <th>Email</th>
-          <th>Stage</th>
-          <th>First Contact</th>
-          <th>Last Activity</th>
+            <td class="td"><div class="cname">Creed AI Agency</div><div class="ctarget"></div></td>
+            <td class="td"><span class="tier-badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">internal</span></td>
+            <td class="td td-num">37</td>
+            <td class="td td-num td-green">0</td>
+            <td class="td td-num">0</td>
+            <td class="td"><a href="client/creed.html?token=cr33d-m45t3r-t0k3n-2026" class="lnk">View</a></td>
+        </tr></tbody>
+        </table>
+    </div>
+    <div class="cd">
+        <div class="ct">All Prospects</div>
+        <table>
+            <thead><tr><th>Name</th><th>Company</th><th>Email</th><th>Stage</th><th>Client</th></tr></thead>
+            <tbody>
+        <tr>
+            <td class="td">Simonelouise Boutique</td>
+            <td class="td td-muted">Simonelouise Boutique</td>
+            <td class="td td-muted td-small">claire@simonelouiseboutique.co</td>
+            <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+            <td class="td td-muted td-small">Creed AI Agency</td>
         </tr>
-      </thead>
-      <tbody id="leadsBody"></tbody>
-    </table>
-  </div>
-  <div class="last-updated" id="lastUpdated">Loading...</div>
-</main>
-
-<footer>
-  <div class="wrap">Creed AI Agency · A project of Shah X LLC · © <span id="yr"></span></div>
-</footer>
-
-<script>
-document.getElementById('yr').textContent = new Date().getFullYear();
-
-// Sample lead data loaded from JSON endpoint
-async function loadLeads() {
-  try {
-    const resp = await fetch('leads-export.json');
-    const data = await resp.json();
-    renderLeads(data);
-  } catch(e) {
-    // Fallback if JSON not available
-    document.getElementById('leadsBody').innerHTML = '<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--mist)">Dashboard data loading. If this persists, contact support.</td></tr>';
-    document.getElementById('lastUpdated').textContent = 'Data unavailable — await first lead export';
-  }
-}
-
-function renderLeads(leads) {
-  const filtered = filterLeads(leads);
-  
-  // Stats
-  document.getElementById('totalLeads').textContent = leads.length;
-  document.getElementById('sentCount').textContent = leads.filter(l => l.stage !== 'New').length;
-  document.getElementById('repliedCount').textContent = leads.filter(l => l.stage === 'Replied').length;
-  document.getElementById('bookedCount').textContent = leads.filter(l => l.stage === 'Booked').length;
-
-  // Table
-  const tbody = document.getElementById('leadsBody');
-  if (filtered.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--mist)">No leads match this filter.</td></tr>';
-    return;
-  }
-  
-  tbody.innerHTML = filtered.map(l => {
-    const stageClass = l.stage.toLowerCase();
-    const badgeClass = stageClass === 'new' ? 'new' : stageClass === 'day0sent' || stageClass === 'day3sent' || stageClass === 'day7sent' ? 'sent' : stageClass;
-    return `<tr>
-      <td style="font-weight:500">${esc(l.name)}</td>
-      <td>${esc(l.company || '—')}</td>
-      <td><a href="mailto:${esc(l.email)}">${esc(l.email)}</a></td>
-      <td><span class="badge ${badgeClass}">${l.stage}</span></td>
-      <td>${l.day0Sent || '—'}</td>
-      <td>${l.lastEmailSent || l.repliedDate || '—'}</td>
-    </tr>`;
-  }).join('');
-
-  document.getElementById('lastUpdated').textContent = 'Last updated: ' + new Date().toLocaleString();
-}
-
-let currentFilter = 'all';
-function filterLeads(leads) {
-  if (currentFilter === 'all') return leads;
-  return leads.filter(l => l.stage === currentFilter);
-}
-
-function esc(s) {
-  if (!s) return '';
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
-function exportCSV() {
-  const rows = [['Prospect','Business','Email','Stage','First Contact','Last Activity']];
-  const leads = window._allLeads || [];
-  leads.forEach(l => {
-    rows.push([l.name||'', l.company||'', l.email||'', l.stage||'', l.day0Sent||'', l.lastEmailSent||l.repliedDate||'']);
-  });
-  const csv = rows.map(r => r.map(c => '"' + c.replace(/"/g,'""') + '"').join(',')).join('\n');
-  const blob = new Blob([csv], {type:'text/csv'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url; a.download = 'creed-leads-export.csv'; a.click();
-  URL.revokeObjectURL(url);
-}
-
-// Filter buttons
-document.querySelectorAll('.filter-btn').forEach(btn => {
-  btn.addEventListener('click', function() {
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    this.classList.add('active');
-    currentFilter = this.dataset.filter;
-    loadLeads();
-  });
-});
-
-// Load on page load
-loadLeads();
-</script>
+        <tr>
+            <td class="td">Monkees Of Naples</td>
+            <td class="td td-muted">Monkees Of Naples</td>
+            <td class="td td-muted td-small">girls@monkeesofnaples.com</td>
+            <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+            <td class="td td-muted td-small">Creed AI Agency</td>
+        </tr>
+        <tr>
+            <td class="td">Ish Shop</td>
+            <td class="td td-muted">Ish Shop</td>
+            <td class="td td-muted td-small">hello@ishshop.com</td>
+            <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+            <td class="td td-muted td-small">Creed AI Agency</td>
+        </tr>
+        <tr>
+            <td class="td">Wild Precious Boutique</td>
+            <td class="td td-muted">Wild Precious Boutique</td>
+            <td class="td td-muted td-small">hello@wildpreciousboutique.com</td>
+            <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+            <td class="td td-muted td-small">Creed AI Agency</td>
+        </tr>
+        <tr>
+            <td class="td">Laney Lus</td>
+            <td class="td td-muted">Laney Lus</td>
+            <td class="td td-muted td-small">shop@laneylus.com</td>
+            <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+            <td class="td td-muted td-small">Creed AI Agency</td>
+        </tr>
+        <tr>
+            <td class="td">Dash Pot NYC</td>
+            <td class="td td-muted">Dash Pot NYC</td>
+            <td class="td td-muted td-small">info@daspotnyc.com</td>
+            <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+            <td class="td td-muted td-small">Creed AI Agency</td>
+        </tr>
+        <tr>
+            <td class="td">Habits JH</td>
+            <td class="td td-muted">Habits JH</td>
+            <td class="td td-muted td-small">info@habitsjh.com</td>
+            <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+            <td class="td td-muted td-small">Creed AI Agency</td>
+        </tr>
+        <tr>
+            <td class="td">Mimi Boutique</td>
+            <td class="td td-muted">The Mimi Boutique</td>
+            <td class="td td-muted td-small">mimi@themimiboutique.com</td>
+            <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+            <td class="td td-muted td-small">Creed AI Agency</td>
+        </tr>
+        <tr>
+            <td class="td">Packer Shoes</td>
+            <td class="td td-muted">Packer Shoes</td>
+            <td class="td td-muted td-small">jc@packershoes.com</td>
+            <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+            <td class="td td-muted td-small">Creed AI Agency</td>
+        </tr>
+        <tr>
+            <td class="td">Request Boutique</td>
+            <td class="td td-muted">Request Boutique</td>
+            <td class="td td-muted td-small">info@requestboutique.com</td>
+            <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+            <td class="td td-muted td-small">Creed AI Agency</td>
+        </tr>
+        <tr>
+            <td class="td">Magnolia Boutique</td>
+            <td class="td td-muted">Magnolia Boutique</td>
+            <td class="td td-muted td-small">info@magnoliaboutique.com</td>
+            <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+            <td class="td td-muted td-small">Creed AI Agency</td>
+        </tr>
+        <tr>
+            <td class="td">Hazel and Olive</td>
+            <td class="td td-muted">Hazel &amp; Olive</td>
+            <td class="td td-muted td-small">sales@hazelandolive.com</td>
+            <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+            <td class="td td-muted td-small">Creed AI Agency</td>
+        </tr>
+        <tr>
+            <td class="td">Mane Beauty Boutique</td>
+            <td class="td td-muted">Mane Beauty Boutique</td>
+            <td class="td td-muted td-small">manebeautyboutique@gmail.com</td>
+            <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+            <td class="td td-muted td-small">Creed AI Agency</td>
+        </tr>
+        <tr>
+            <td class="td">https://allurebridals.com</td>
+            <td class="td td-muted">https://allurebridals.com</td>
+            <td class="td td-muted td-small">ntim@allurebridals.com</td>
+            <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+            <td class="td td-muted td-small">Creed AI Agency</td>
+        </tr>
+        <tr>
+            <td class="td">https://www.kleinfeldbridal.com</td>
+            <td class="td td-muted">https://www.kleinfeldbridal.co</td>
+            <td class="td td-muted td-small">interns@kleinfeldbridal.com</td>
+            <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+            <td class="td td-muted td-small">Creed AI Agency</td>
+        </tr>
+        <tr>
+            <td class="td">https://www.thrifted.com</td>
+            <td class="td td-muted">https://www.thrifted.com</td>
+            <td class="td td-muted td-small">theteam@thrifted.com</td>
+            <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+            <td class="td td-muted td-small">Creed AI Agency</td>
+        </tr>
+        <tr>
+            <td class="td">https://wearicy.com</td>
+            <td class="td td-muted">https://wearicy.com</td>
+            <td class="td td-muted td-small">info@wearicy.com</td>
+            <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+            <td class="td td-muted td-small">Creed AI Agency</td>
+        </tr>
+        <tr>
+            <td class="td">https://www.unique-vintage.com</td>
+            <td class="td td-muted">https://www.unique-vintage.com</td>
+            <td class="td td-muted td-small">service@uniquevintage.com</td>
+            <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+            <td class="td td-muted td-small">Creed AI Agency</td>
+        </tr>
+        <tr>
+            <td class="td">https://mejuri.com</td>
+            <td class="td td-muted">https://mejuri.com</td>
+            <td class="td td-muted td-small">contact@mejuri.com</td>
+            <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+            <td class="td td-muted td-small">Creed AI Agency</td>
+        </tr>
+        <tr>
+            <td class="td">https://www.honeybirdette.com</td>
+            <td class="td td-muted">https://www.honeybirdette.com</td>
+            <td class="td td-muted td-small">honey@honeybirdette.com</td>
+            <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+            <td class="td td-muted td-small">Creed AI Agency</td>
+        </tr>
+        <tr>
+            <td class="td">https://quizell.com</td>
+            <td class="td td-muted">https://quizell.com</td>
+            <td class="td td-muted td-small">support@quizell.com</td>
+            <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+            <td class="td td-muted td-small">Creed AI Agency</td>
+        </tr>
+        <tr>
+            <td class="td">https://lealboutique.com</td>
+            <td class="td td-muted">https://lealboutique.com</td>
+            <td class="td td-muted td-small">shopleal@lealboutique.com</td>
+            <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+            <td class="td td-muted td-small">Creed AI Agency</td>
+        </tr>
+        <tr>
+            <td class="td">https://shopmoco.com</td>
+            <td class="td td-muted">https://shopmoco.com</td>
+            <td class="td td-muted td-small">contact@shopmoco.com</td>
+            <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+            <td class="td td-muted td-small">Creed AI Agency</td>
+        </tr>
+        <tr>
+            <td class="td">https://www.humanrightscareers.com</td>
+            <td class="td td-muted">https://www.humanrightscareers</td>
+            <td class="td td-muted td-small">admin@humanrightscareers.com</td>
+            <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+            <td class="td td-muted td-small">Creed AI Agency</td>
+        </tr>
+        <tr>
+            <td class="td">https://msmagazine.com</td>
+            <td class="td td-muted">https://msmagazine.com</td>
+            <td class="td td-muted td-small">info@msmagazine.com</td>
+            <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+            <td class="td td-muted td-small">Creed AI Agency</td>
+        </tr>
+        <tr>
+            <td class="td">https://www.careerexplorer.com</td>
+            <td class="td td-muted">https://www.careerexplorer.com</td>
+            <td class="td td-muted td-small">sales@careerexplorer.com</td>
+            <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+            <td class="td td-muted td-small">Creed AI Agency</td>
+        </tr>
+        <tr>
+            <td class="td">https://blog.theinterviewguys.com</td>
+            <td class="td td-muted">https://blog.theinterviewguys.</td>
+            <td class="td td-muted td-small">support@theinterviewguys.com</td>
+            <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+            <td class="td td-muted td-small">Creed AI Agency</td>
+        </tr>
+        <tr>
+            <td class="td">https://www.sortlist.com</td>
+            <td class="td td-muted">https://www.sortlist.com</td>
+            <td class="td td-muted td-small">jane.doe@acme.com</td>
+            <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+            <td class="td td-muted td-small">Creed AI Agency</td>
+        </tr>
+        <tr>
+            <td class="td">https://www.everydayhealth.com</td>
+            <td class="td td-muted">https://www.everydayhealth.com</td>
+            <td class="td td-muted td-small">Support@everydayhealth.com</td>
+            <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+            <td class="td td-muted td-small">Creed AI Agency</td>
+        </tr>
+        <tr>
+            <td class="td">https://collinsconcrete.com</td>
+            <td class="td td-muted">https://collinsconcrete.com</td>
+            <td class="td td-muted td-small">info@collinsconcrete.com</td>
+            <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+            <td class="td td-muted td-small">Creed AI Agency</td>
+        </tr>
+        <tr>
+            <td class="td">https://werockdallas.com</td>
+            <td class="td td-muted">https://werockdallas.com</td>
+            <td class="td td-muted td-small">info@werockdallas.com</td>
+            <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+            <td class="td td-muted td-small">Creed AI Agency</td>
+        </tr>
+        <tr>
+            <td class="td">https://www.studioalouisville.com</td>
+            <td class="td td-muted">https://www.studioalouisville.</td>
+            <td class="td td-muted td-small">info@studioalouisville.com</td>
+            <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+            <td class="td td-muted td-small">Creed AI Agency</td>
+        </tr>
+        <tr>
+            <td class="td">https://threebestrated.com</td>
+            <td class="td td-muted">https://threebestrated.com</td>
+            <td class="td td-muted td-small">support@threebestrated.com</td>
+            <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+            <td class="td td-muted td-small">Creed AI Agency</td>
+        </tr>
+        <tr>
+            <td class="td">https://antiquestorelocator.com</td>
+            <td class="td td-muted">https://antiquestorelocator.co</td>
+            <td class="td td-muted td-small">your@email.com</td>
+            <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+            <td class="td td-muted td-small">Creed AI Agency</td>
+        </tr>
+        <tr>
+            <td class="td">https://www.antiquestoresnearby.com</td>
+            <td class="td td-muted">https://www.antiquestoresnearb</td>
+            <td class="td td-muted td-small">u002F061d11a338184f01ad93d1e4f</td>
+            <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+            <td class="td td-muted td-small">Creed AI Agency</td>
+        </tr>
+        <tr>
+            <td class="td">https://www.xclusiveautodetailing.com</td>
+            <td class="td td-muted">https://www.xclusiveautodetail</td>
+            <td class="td td-muted td-small">XCLUSIVEAUTODETAIL2211@GMAIL.C</td>
+            <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+            <td class="td td-muted td-small">Creed AI Agency</td>
+        </tr>
+        <tr>
+            <td class="td">https://realdealdetailinglouisville.com</td>
+            <td class="td td-muted">https://realdealdetailinglouis</td>
+            <td class="td td-muted td-small">info@realdealdetailinglouisvil</td>
+            <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+            <td class="td td-muted td-small">Creed AI Agency</td>
+        </tr></tbody>
+        </table>
+    </div>
+</div>
+<div class="ft">Creed AI Agency</div>
 </body>
 </html>

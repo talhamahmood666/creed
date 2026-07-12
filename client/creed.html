@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Creed AI Agency - Pipeline</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f1f5f9;color:#0f172a;}
+.hdr{background:linear-gradient(135deg,#0f172a,#1e3a5f);color:white;padding:24px 28px 20px;}
+.hdr h1{font-size:20px;font-weight:600;}
+.hdr p{color:#94a3b8;font-size:13px;margin-top:3px;}
+.hdr .g{color:#64748b;font-size:11px;margin-top:6px;}
+.sb{display:none;}
+.sb.show{display:flex;gap:12px;padding:14px 28px;background:white;border-bottom:1px solid #e2e8f0;flex-wrap:wrap;}
+.sbi{flex:1;min-width:100px;}
+.sbi-n{font-size:24px;font-weight:700;color:#0f172a;}
+.sbi-l{font-size:11px;color:#64748b;text-transform:uppercase;letter-spacing:0.5px;margin-top:1px;}
+.fb{padding:8px 28px;background:white;border-bottom:1px solid #e2e8f0;display:none;flex-wrap:wrap;gap:4px;}
+.fb.show{display:flex;}
+.funnel-badge{padding:2px 8px;border-radius:6px;font-size:11px;font-weight:500;}
+.c{max-width:1200px;margin:16px auto;padding:0 16px;display:none;}
+.c.show{display:block;}
+.cd{background:white;border-radius:8px;box-shadow:0 1px 2px rgba(0,0,0,0.05);overflow-x:auto;}
+table{width:100%;border-collapse:collapse;min-width:550px;}
+th{text-align:left;padding:10px 14px;font-size:10px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:0.8px;background:#f8fafc;border-bottom:2px solid #e2e8f0;}
+.td{padding:8px 14px;border-bottom:1px solid #f1f5f9;font-size:13px;}
+.td-muted{color:#64748b;}
+.td-small{font-size:12px;}
+.td-notes{max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.badge{padding:2px 8px;border-radius:6px;font-size:11px;font-weight:600;border:1px solid;}
+.em{text-align:center;padding:40px 20px;color:#94a3b8;}
+.em h3{color:#64748b;font-size:16px;margin-bottom:4px;}
+.ft{text-align:center;padding:16px;color:#94a3b8;font-size:11px;}
+.msg-box{display:none;text-align:center;padding:80px 20px;}
+.msg-box.show{display:block;}
+.msg-box h2{font-size:20px;color:#0f172a;margin-bottom:8px;}
+.msg-box p{color:#64748b;font-size:14px;}
+@media(max-width:600px){.hdr{padding:18px 16px;}.sb{padding:10px 16px;flex-direction:column;}.sbi{min-width:auto;}.fb{padding:6px 16px;}.c{padding:0 8px;}.th,.td{padding:6px 8px;font-size:12px;}.td-notes{max-width:100px;}}
+</style>
+</head>
+<body>
+<div class="msg-box show" id="msgBox">
+    <h2>Validating access...</h2>
+    <p>Please wait</p>
+</div>
+<div id="dashContent" style="display:none;">
+<div class="hdr">
+    <h1>Creed AI Agency</h1>
+    <p>Prospect Pipeline</p>
+    <div class="g">Updated Jul 12, 2026 at 21:13 UTC</div>
+</div>
+<div class="sb show" id="statsBar">
+    <div class="sbi"><div class="sbi-n">37</div><div class="sbi-l">Total</div></div>
+    <div class="sbi"><div class="sbi-n">0</div><div class="sbi-l">Active</div></div>
+    <div class="sbi"><div class="sbi-n">37</div><div class="sbi-l">New</div></div>
+    <div class="sbi"><div class="sbi-n">0</div><div class="sbi-l">Booked</div></div>
+</div>
+<div class="fb show" id="funnelBar"><span class="funnel-badge" style="background:#3b82f612;color:#3b82f6;border:1px solid #3b82f625;">New: 37</span> </div>
+<div class="c show">
+    <div class="cd">
+        <table>
+            <thead><tr><th>Name</th><th>Company</th><th>Email</th><th>Stage</th><th>Notes</th></tr></thead>
+            <tbody>
+                
+            <tr>
+                <td class="td">Simonelouise Boutique</td>
+                <td class="td td-muted">Simonelouise Boutique</td>
+                <td class="td td-muted td-small">claire@simonelouiseboutique.com</td>
+                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+                <td class="td td-muted td-small td-notes">Verified email on site. Shopify. US boutique.</td>
+            </tr>
+            <tr>
+                <td class="td">Monkees Of Naples</td>
+                <td class="td td-muted">Monkees Of Naples</td>
+                <td class="td td-muted td-small">girls@monkeesofnaples.com</td>
+                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+                <td class="td td-muted td-small td-notes">Verified email on contact page. Shopify. US boutique (Naples, FL).</td>
+            </tr>
+            <tr>
+                <td class="td">Ish Shop</td>
+                <td class="td td-muted">Ish Shop</td>
+                <td class="td td-muted td-small">hello@ishshop.com</td>
+                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+                <td class="td td-muted td-small td-notes">Owner inbox. Shopify confirmed. US.</td>
+            </tr>
+            <tr>
+                <td class="td">Wild Precious Boutique</td>
+                <td class="td td-muted">Wild Precious Boutique</td>
+                <td class="td td-muted td-small">hello@wildpreciousboutique.com</td>
+                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+                <td class="td td-muted td-small td-notes">Owner inbox. Shopify confirmed. US.</td>
+            </tr>
+            <tr>
+                <td class="td">Laney Lus</td>
+                <td class="td td-muted">Laney Lus</td>
+                <td class="td td-muted td-small">shop@laneylus.com</td>
+                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+                <td class="td td-muted td-small td-notes">Owner inbox. Shopify confirmed. US.</td>
+            </tr>
+            <tr>
+                <td class="td">Dash Pot NYC</td>
+                <td class="td td-muted">Dash Pot NYC</td>
+                <td class="td td-muted td-small">info@daspotnyc.com</td>
+                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+                <td class="td td-muted td-small td-notes">Owner inbox. Shopify confirmed. NYC.</td>
+            </tr>
+            <tr>
+                <td class="td">Habits JH</td>
+                <td class="td td-muted">Habits JH</td>
+                <td class="td td-muted td-small">info@habitsjh.com</td>
+                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+                <td class="td td-muted td-small td-notes">Owner inbox. Shopify confirmed. US.</td>
+            </tr>
+            <tr>
+                <td class="td">Mimi Boutique</td>
+                <td class="td td-muted">The Mimi Boutique</td>
+                <td class="td td-muted td-small">mimi@themimiboutique.com</td>
+                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+                <td class="td td-muted td-small td-notes">Real person email. Shopify confirmed. US boutique.</td>
+            </tr>
+            <tr>
+                <td class="td">Packer Shoes</td>
+                <td class="td td-muted">Packer Shoes</td>
+                <td class="td td-muted td-small">jc@packershoes.com</td>
+                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+                <td class="td td-muted td-small td-notes">Real person email jc@. Shopify confirmed. US shoe store.</td>
+            </tr>
+            <tr>
+                <td class="td">Request Boutique</td>
+                <td class="td td-muted">Request Boutique</td>
+                <td class="td td-muted td-small">info@requestboutique.com</td>
+                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+                <td class="td td-muted td-small td-notes">Owner inbox. Shopify confirmed. US.</td>
+            </tr>
+            <tr>
+                <td class="td">Magnolia Boutique</td>
+                <td class="td td-muted">Magnolia Boutique</td>
+                <td class="td td-muted td-small">info@magnoliaboutique.com</td>
+                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+                <td class="td td-muted td-small td-notes">Shopify clothing boutique. Owner inbox (info@).</td>
+            </tr>
+            <tr>
+                <td class="td">Hazel and Olive</td>
+                <td class="td td-muted">Hazel &amp; Olive</td>
+                <td class="td td-muted td-small">sales@hazelandolive.com</td>
+                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+                <td class="td td-muted td-small td-notes">Shopify clothing boutique. Owner inbox (sales@).</td>
+            </tr>
+            <tr>
+                <td class="td">Mane Beauty Boutique</td>
+                <td class="td td-muted">Mane Beauty Boutique</td>
+                <td class="td td-muted td-small">manebeautyboutique@gmail.com</td>
+                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+                <td class="td td-muted td-small td-notes">Wix platform (not Shopify). Gmail contact. Beauty boutique.</td>
+            </tr>
+            <tr>
+                <td class="td">https://allurebridals.com</td>
+                <td class="td td-muted">https://allurebridals.com</td>
+                <td class="td td-muted td-small">ntim@allurebridals.com</td>
+                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+                <td class="td td-muted td-small td-notes">Auto-found. Shopify.</td>
+            </tr>
+            <tr>
+                <td class="td">https://www.kleinfeldbridal.com</td>
+                <td class="td td-muted">https://www.kleinfeldbridal.com</td>
+                <td class="td td-muted td-small">interns@kleinfeldbridal.com</td>
+                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+                <td class="td td-muted td-small td-notes">Auto-found. Shopify.</td>
+            </tr>
+            <tr>
+                <td class="td">https://www.thrifted.com</td>
+                <td class="td td-muted">https://www.thrifted.com</td>
+                <td class="td td-muted td-small">theteam@thrifted.com</td>
+                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+                <td class="td td-muted td-small td-notes">Auto-found. Shopify.</td>
+            </tr>
+            <tr>
+                <td class="td">https://wearicy.com</td>
+                <td class="td td-muted">https://wearicy.com</td>
+                <td class="td td-muted td-small">info@wearicy.com</td>
+                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+                <td class="td td-muted td-small td-notes">Auto-found. Shopify.</td>
+            </tr>
+            <tr>
+                <td class="td">https://www.unique-vintage.com</td>
+                <td class="td td-muted">https://www.unique-vintage.com</td>
+                <td class="td td-muted td-small">service@uniquevintage.com</td>
+                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+                <td class="td td-muted td-small td-notes">Auto-found. Shopify.</td>
+            </tr>
+            <tr>
+                <td class="td">https://mejuri.com</td>
+                <td class="td td-muted">https://mejuri.com</td>
+                <td class="td td-muted td-small">contact@mejuri.com</td>
+                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+                <td class="td td-muted td-small td-notes">Auto-found. Shopify.</td>
+            </tr>
+            <tr>
+                <td class="td">https://www.honeybirdette.com</td>
+                <td class="td td-muted">https://www.honeybirdette.com</td>
+                <td class="td td-muted td-small">honey@honeybirdette.com</td>
+                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+                <td class="td td-muted td-small td-notes">Auto-found. Shopify.</td>
+            </tr>
+            <tr>
+                <td class="td">https://quizell.com</td>
+                <td class="td td-muted">https://quizell.com</td>
+                <td class="td td-muted td-small">support@quizell.com</td>
+                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+                <td class="td td-muted td-small td-notes">Auto-found. Small store.</td>
+            </tr>
+            <tr>
+                <td class="td">https://lealboutique.com</td>
+                <td class="td td-muted">https://lealboutique.com</td>
+                <td class="td td-muted td-small">shopleal@lealboutique.com</td>
+                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+                <td class="td td-muted td-small td-notes">Auto-found. Small store.</td>
+            </tr>
+            <tr>
+                <td class="td">https://shopmoco.com</td>
+                <td class="td td-muted">https://shopmoco.com</td>
+                <td class="td td-muted td-small">contact@shopmoco.com</td>
+                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+                <td class="td td-muted td-small td-notes">Auto-found. Small store.</td>
+            </tr>
+            <tr>
+                <td class="td">https://www.humanrightscareers.com</td>
+                <td class="td td-muted">https://www.humanrightscareers.com</td>
+                <td class="td td-muted td-small">admin@humanrightscareers.com</td>
+                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+                <td class="td td-muted td-small td-notes">Auto-found.</td>
+            </tr>
+            <tr>
+                <td class="td">https://msmagazine.com</td>
+                <td class="td td-muted">https://msmagazine.com</td>
+                <td class="td td-muted td-small">info@msmagazine.com</td>
+                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+                <td class="td td-muted td-small td-notes">Auto-found.</td>
+            </tr>
+            <tr>
+                <td class="td">https://www.careerexplorer.com</td>
+                <td class="td td-muted">https://www.careerexplorer.com</td>
+                <td class="td td-muted td-small">sales@careerexplorer.com</td>
+                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+                <td class="td td-muted td-small td-notes">Auto-found.</td>
+            </tr>
+            <tr>
+                <td class="td">https://blog.theinterviewguys.com</td>
+                <td class="td td-muted">https://blog.theinterviewguys.com</td>
+                <td class="td td-muted td-small">support@theinterviewguys.com</td>
+                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+                <td class="td td-muted td-small td-notes">Auto-found.</td>
+            </tr>
+            <tr>
+                <td class="td">https://www.sortlist.com</td>
+                <td class="td td-muted">https://www.sortlist.com</td>
+                <td class="td td-muted td-small">jane.doe@acme.com</td>
+                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+                <td class="td td-muted td-small td-notes">Auto-found.</td>
+            </tr>
+            <tr>
+                <td class="td">https://www.everydayhealth.com</td>
+                <td class="td td-muted">https://www.everydayhealth.com</td>
+                <td class="td td-muted td-small">Support@everydayhealth.com</td>
+                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+                <td class="td td-muted td-small td-notes">Auto-found.</td>
+            </tr>
+            <tr>
+                <td class="td">https://collinsconcrete.com</td>
+                <td class="td td-muted">https://collinsconcrete.com</td>
+                <td class="td td-muted td-small">info@collinsconcrete.com</td>
+                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+                <td class="td td-muted td-small td-notes">Auto-found.</td>
+            </tr>
+            <tr>
+                <td class="td">https://werockdallas.com</td>
+                <td class="td td-muted">https://werockdallas.com</td>
+                <td class="td td-muted td-small">info@werockdallas.com</td>
+                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+                <td class="td td-muted td-small td-notes">Auto-found.</td>
+            </tr>
+            <tr>
+                <td class="td">https://www.studioalouisville.com</td>
+                <td class="td td-muted">https://www.studioalouisville.com</td>
+                <td class="td td-muted td-small">info@studioalouisville.com</td>
+                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+                <td class="td td-muted td-small td-notes">Auto-found.</td>
+            </tr>
+            <tr>
+                <td class="td">https://threebestrated.com</td>
+                <td class="td td-muted">https://threebestrated.com</td>
+                <td class="td td-muted td-small">support@threebestrated.com</td>
+                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+                <td class="td td-muted td-small td-notes">Auto-found.</td>
+            </tr>
+            <tr>
+                <td class="td">https://antiquestorelocator.com</td>
+                <td class="td td-muted">https://antiquestorelocator.com</td>
+                <td class="td td-muted td-small">your@email.com</td>
+                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+                <td class="td td-muted td-small td-notes">Auto-found.</td>
+            </tr>
+            <tr>
+                <td class="td">https://www.antiquestoresnearby.com</td>
+                <td class="td td-muted">https://www.antiquestoresnearby.com</td>
+                <td class="td td-muted td-small">u002F061d11a338184f01ad93d1e4fa6838f7@glitchtip.antiquestoresnearby.com</td>
+                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+                <td class="td td-muted td-small td-notes">Auto-found.</td>
+            </tr>
+            <tr>
+                <td class="td">https://www.xclusiveautodetailing.com</td>
+                <td class="td td-muted">https://www.xclusiveautodetailing.com</td>
+                <td class="td td-muted td-small">XCLUSIVEAUTODETAIL2211@GMAIL.COM</td>
+                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+                <td class="td td-muted td-small td-notes">Auto-found.</td>
+            </tr>
+            <tr>
+                <td class="td">https://realdealdetailinglouisville.com</td>
+                <td class="td td-muted">https://realdealdetailinglouisville.com</td>
+                <td class="td td-muted td-small">info@realdealdetailinglouisville.com</td>
+                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
+                <td class="td td-muted td-small td-notes">Auto-found.</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</div>
+<div class="ft">Creed AI Agency</div>
+<script>
+(function(){
+    var params = new URLSearchParams(window.location.search);
+    var t = params.get('token') || '';
+    var correctToken = 'cr33d-m45t3r-t0k3n-2026';
+    if (t === correctToken) {
+        document.getElementById('msgBox').classList.remove('show');
+        document.getElementById('msgBox').style.display = 'none';
+        document.getElementById('dashContent').style.display = 'block';
+    } else {
+        document.getElementById('msgBox').innerHTML = '<h2>Access Denied</h2><p>Invalid or missing access token. Please use the link provided by your account manager.</p>';
+    }
+})();
+</script>
+</body>
+</html>
