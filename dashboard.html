@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Client Dashboard · Creed AI Agency</title>
+<meta name="robots" content="noindex">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#08070b;--ink-2:#0f0d14;--panel:#15121c;--bone:#ece6dc;--mist:#8a8494;--copper:#d98a4e;--copper-soft:#e8a96f;--line:rgba(236,230,220,.10)}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--ink);color:var(--bone);font-family:"Inter",system-ui,sans-serif;font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+  a{color:var(--copper-soft);text-decoration:none}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 24px}
+  header{background:rgba(8,7,11,.8);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);padding:18px 0}
+  header h1{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;font-size:22px;margin:0}
+  header h1 span{color:var(--copper)}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin:40px 0}
+  .stat{background:var(--ink-2);border:1px solid var(--line);border-radius:16px;padding:20px;text-align:center}
+  .stat-num{font-family:"Bricolage Grotesque";font-weight:800;font-size:32px;color:var(--copper)}
+  .stat-label{font-size:12px;color:var(--mist);margin-top:4px;letter-spacing:.05em;text-transform:uppercase}
+  table{width:100%;border-collapse:collapse;margin-top:20px;font-size:14px}
+  th{text-align:left;padding:14px 12px;border-bottom:2px solid var(--line);color:var(--mist);font-weight:500;font-size:12px;text-transform:uppercase;letter-spacing:.1em}
+  td{padding:12px;border-bottom:1px solid var(--line);color:#c6c0b6}
+  .badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;letter-spacing:.05em}
+  .badge.new{background:rgba(107,114,255,.15);color:#8b83ff}
+  .badge.sent{background:rgba(217,138,78,.15);color:var(--copper-soft)}
+  .badge.replied{background:rgba(81,207,102,.15);color:#51cf66}
+  .badge.done{background:rgba(255,107,107,.15);color:#ff6b6b}
+  .badge.booked{background:rgba(56,189,248,.15);color:#38bdf8}
+  .filters{display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap}
+  .filter-btn{padding:8px 18px;border:1px solid var(--line);border-radius:20px;background:transparent;color:var(--mist);font-size:13px;cursor:pointer;transition:all .2s}
+  .filter-btn.active,.filter-btn:hover{border-color:var(--copper);color:var(--bone);background:rgba(217,138,78,.1)}
+  .export-btn{padding:8px 18px;border:1px solid var(--copper);border-radius:20px;background:rgba(217,138,78,.1);color:var(--copper-soft);font-size:13px;cursor:pointer;margin-left:auto}
+  .export-btn:hover{background:var(--copper);color:#1a0f06}
+  footer{padding:40px 0;border-top:1px solid var(--line);margin-top:60px;color:var(--mist);font-size:13px;text-align:center}
+  .last-updated{color:var(--mist);font-size:12px;margin-top:8px}
+  @media(max-width:700px){.stats{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <h1>CREED <span>AI AGENCY</span> · Client Dashboard</h1>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="stats" id="stats">
+    <div class="stat"><div class="stat-num" id="totalLeads">0</div><div class="stat-label">Total Leads</div></div>
+    <div class="stat"><div class="stat-num" id="sentCount">0</div><div class="stat-label">Emails Sent</div></div>
+    <div class="stat"><div class="stat-num" id="repliedCount">0</div><div class="stat-label">Replies</div></div>
+    <div class="stat"><div class="stat-num" id="bookedCount">0</div><div class="stat-label">Booked</div></div>
+  </div>
+
+  <div class="filters">
+    <button class="filter-btn active" data-filter="all">All</button>
+    <button class="filter-btn" data-filter="New">New</button>
+    <button class="filter-btn" data-filter="Sent">Sent</button>
+    <button class="filter-btn" data-filter="Replied">Replied</button>
+    <button class="filter-btn" data-filter="Booked">Booked</button>
+    <button class="export-btn" onclick="exportCSV()">Download CSV</button>
+  </div>
+
+  <div style="overflow-x:auto">
+    <table>
+      <thead>
+        <tr>
+          <th>Prospect</th>
+          <th>Business</th>
+          <th>Email</th>
+          <th>Stage</th>
+          <th>First Contact</th>
+          <th>Last Activity</th>
+        </tr>
+      </thead>
+      <tbody id="leadsBody"></tbody>
+    </table>
+  </div>
+  <div class="last-updated" id="lastUpdated">Loading...</div>
+</main>
+
+<footer>
+  <div class="wrap">Creed AI Agency · A project of Shah X LLC · © <span id="yr"></span></div>
+</footer>
+
+<script>
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+// Sample lead data loaded from JSON endpoint
+async function loadLeads() {
+  try {
+    const resp = await fetch('leads-export.json');
+    const data = await resp.json();
+    renderLeads(data);
+  } catch(e) {
+    // Fallback if JSON not available
+    document.getElementById('leadsBody').innerHTML = '<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--mist)">Dashboard data loading. If this persists, contact support.</td></tr>';
+    document.getElementById('lastUpdated').textContent = 'Data unavailable — await first lead export';
+  }
+}
+
+function renderLeads(leads) {
+  const filtered = filterLeads(leads);
+  
+  // Stats
+  document.getElementById('totalLeads').textContent = leads.length;
+  document.getElementById('sentCount').textContent = leads.filter(l => l.stage !== 'New').length;
+  document.getElementById('repliedCount').textContent = leads.filter(l => l.stage === 'Replied').length;
+  document.getElementById('bookedCount').textContent = leads.filter(l => l.stage === 'Booked').length;
+
+  // Table
+  const tbody = document.getElementById('leadsBody');
+  if (filtered.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:40px;color:var(--mist)">No leads match this filter.</td></tr>';
+    return;
+  }
+  
+  tbody.innerHTML = filtered.map(l => {
+    const stageClass = l.stage.toLowerCase();
+    const badgeClass = stageClass === 'new' ? 'new' : stageClass === 'day0sent' || stageClass === 'day3sent' || stageClass === 'day7sent' ? 'sent' : stageClass;
+    return `<tr>
+      <td style="font-weight:500">${esc(l.name)}</td>
+      <td>${esc(l.company || '—')}</td>
+      <td><a href="mailto:${esc(l.email)}">${esc(l.email)}</a></td>
+      <td><span class="badge ${badgeClass}">${l.stage}</span></td>
+      <td>${l.day0Sent || '—'}</td>
+      <td>${l.lastEmailSent || l.repliedDate || '—'}</td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('lastUpdated').textContent = 'Last updated: ' + new Date().toLocaleString();
+}
+
+let currentFilter = 'all';
+function filterLeads(leads) {
+  if (currentFilter === 'all') return leads;
+  return leads.filter(l => l.stage === currentFilter);
+}
+
+function esc(s) {
+  if (!s) return '';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function exportCSV() {
+  const rows = [['Prospect','Business','Email','Stage','First Contact','Last Activity']];
+  const leads = window._allLeads || [];
+  leads.forEach(l => {
+    rows.push([l.name||'', l.company||'', l.email||'', l.stage||'', l.day0Sent||'', l.lastEmailSent||l.repliedDate||'']);
+  });
+  const csv = rows.map(r => r.map(c => '"' + c.replace(/"/g,'""') + '"').join(',')).join('\n');
+  const blob = new Blob([csv], {type:'text/csv'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'creed-leads-export.csv'; a.click();
+  URL.revokeObjectURL(url);
+}
+
+// Filter buttons
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+    currentFilter = this.dataset.filter;
+    loadLeads();
+  });
+});
+
+// Load on page load
+loadLeads();
+</script>
+</body>
+</html>
