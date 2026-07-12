@@ -11,6 +11,7 @@
     { "source": "/refund", "destination": "/refund.html" },
     { "source": "/tos", "destination": "/tos.html" },
     { "source": "/terms", "destination": "/tos.html" },
-    { "source": "/client/:slug", "destination": "/client/:slug.html" }
+    { "source": "/client/:slug", "destination": "/client/:slug.html" },
+    { "source": "/dashboard", "destination": "/dashboard.html" }
   ]
 }
