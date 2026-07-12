@@ -50,7 +50,7 @@
   header{position:fixed;top:0;left:0;right:0;z-index:50;transition:all .5s var(--ease)}
   header.scrolled{background:rgba(8,7,11,.7);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
   nav{display:flex;align-items:center;justify-content:space-between;height:74px}
-  .brand{display:flex;align-items:center;gap:11px;font-family:"Bricolage Grotesque";font-weight:800;font-size:21px;letter-spacing:-.01em}
+  .brand{display:flex;align-items:center;gap:11px}
   .brand .dot{width:13px;height:13px;background:var(--copper);border-radius:48% 52% 60% 40%/55% 45% 55% 45%;animation:morphDot 7s var(--ease) infinite;box-shadow:0 0 20px rgba(217,138,78,.7)}
   @keyframes morphDot{0%,100%{border-radius:48% 52% 60% 40%/55% 45% 55% 45%}50%{border-radius:60% 40% 35% 65%/40% 60% 40% 60%}}
   .navlinks{display:flex;gap:34px;align-items:center}
@@ -221,7 +221,17 @@
 <header id="hdr">
   <div class="wrap">
     <nav>
-      <a class="brand" href="#top"><span class="dot"></span>Creed</a>
+      <a class="brand" href="#top">
+        <svg width="110" height="28" viewBox="0 0 400 110" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block;height:26px;width:auto">
+          <path d="M55 5 C28 5 5 24 5 48 C5 72 28 91 55 91 L55 78 C37 78 22 65 22 48 C22 31 37 18 55 18 Z" fill="#d98a4e"/>
+          <path d="M55 5 L55 18 L64 5 Z" fill="#b86e32"/>
+          <circle cx="62" cy="52" r="5" fill="#d98a4e"/>
+          <line x1="62" y1="47" x2="62" y2="18" stroke="#d98a4e" stroke-width="2" opacity="0.4"/>
+          <circle cx="72" cy="28" r="3" fill="#d98a4e" opacity="0.5"/>
+          <text x="98" y="50" font-family="'Bricolage Grotesque','Inter',sans-serif" font-size="46" font-weight="800" letter-spacing="1" fill="#ece6dc">CREED</text>
+          <text x="100" y="80" font-family="'Inter',sans-serif" font-size="14" font-weight="500" letter-spacing="6" fill="#d98a4e">AI AGENCY</text>
+        </svg>
+      </a>
       <div class="navlinks">
         <a href="#what">What we do</a>
         <a href="#process">How it works</a>
@@ -361,7 +371,7 @@
 <footer>
   <div class="wrap">
     <div class="foot">
-      <div class="legal"><b>Creed Web Design</b> · A project of Shah X LLC · © <span id="yr"></span></div>
+      <div class="legal"><b>Creed AI Agency</b> · A project of Shah X LLC · © <span id="yr"></span></div>
       <div class="fl">
         <a href="#what">What we do</a><a href="#process">How it works</a><a href="/pricing.html">Pricing</a><a href="#contact">Contact</a>
         <a href="/pricing.html">Pricing</a><a href="/tos.html">Terms</a><a href="/privacy.html">Privacy</a><a href="/refund.html">Refund</a>
