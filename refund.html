@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Refund Policy · Creed Web Design</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#08070b;--ink-2:#0f0d14;--panel:#15121c;--bone:#ece6dc;
+    --mist:#8a8494;--copper:#d98a4e;--copper-soft:#e8a96f;
+    --line:rgba(236,230,220,.10);--maxw:860px;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;background:var(--ink);color:var(--bone);
+    font-family:"Inter",system-ui,sans-serif;font-size:17px;line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--copper-soft);text-decoration:none}
+  a:hover{color:var(--copper)}
+  h1,h2,h3{font-family:"Bricolage Grotesque",sans-serif;font-weight:800;line-height:1.1;letter-spacing:-.02em;margin:0}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+  header{background:rgba(8,7,11,.8);backdrop-filter:blur(14px);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10}
+  nav{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .brand{display:flex;align-items:center;gap:11px;font-family:"Bricolage Grotesque";font-weight:800;font-size:19px;color:var(--bone)}
+  .brand .dot{width:11px;height:11px;background:var(--copper);border-radius:50%}
+  nav a{font-size:14px;color:var(--mist)}
+  .content{padding:80px 0 100px}
+  .content h1{font-size:36px;margin-bottom:40px}
+  .content h2{font-size:24px;margin-top:48px;margin-bottom:16px;color:var(--copper-soft)}
+  .content p,.content li{color:#c6c0b6;margin:0 0 16px}
+  .content ul{padding-left:20px}
+  .content li{margin-bottom:8px}
+  .back{display:inline-flex;align-items:center;gap:6px;margin-bottom:30px;font-size:14px;color:var(--mist)}
+  .back:hover{color:var(--copper-soft)}
+  footer{padding:32px 0;border-top:1px solid var(--line);font-size:13px;color:var(--mist);text-align:center}
+  footer a{color:var(--mist)}footer a:hover{color:var(--copper-soft)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <nav>
+      <a class="brand" href="/"><span class="dot"></span>Creed</a>
+      <a href="/">Home</a>
+    </nav>
+  </div>
+</header>
+
+<main class="content wrap">
+  <a class="back" href="/">← Back to home</a>
+  <h1>Refund Policy</h1>
+  <p><em>Last updated: July 12, 2026</em></p>
+
+  <h2>Before You Pay (No-Risk Demo)</h2>
+  <p>We build a fully functional demo site before you pay a cent. You review it, approve it, and only then do we invoice you. If you are not satisfied with the demo, there is no charge.</p>
+
+  <h2>Project Payments</h2>
+  <p>Once you approve the demo and we begin the launch phase:</p>
+  <ul>
+    <li><strong>Web Design &amp; Development</strong> — Because we deliver a working demo before payment, refunds for the initial build are not available after payment is processed. The work is already complete and delivered.</li>
+    <li><strong>Monthly Maintenance &amp; SEO</strong> — These are recurring services. You may cancel at any time before the next billing cycle. Refunds for the current month are not available since the work has begun.</li>
+  </ul>
+
+  <h2>Digital Services</h2>
+  <p>Our services are digital in nature. Once delivered (demo approved, site launched), the work is considered complete. This is standard for custom development services.</p>
+
+  <h2>Dispute Resolution</h2>
+  <p>If you have an issue with our work, contact us at <strong>hello@creedwebdesign.org</strong>. We will work with you to resolve any concerns. If we cannot reach a resolution, Paddle's buyer protection policies apply.</p>
+
+  <h2>Chargebacks</h2>
+  <p>Before filing a chargeback with your bank, please contact us. We prefer to resolve issues directly rather than through a dispute process.</p>
+
+  <h2>Contact</h2>
+  <p>For refund questions: <strong>hello@creedwebdesign.org</strong></p>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Creed Web Design · A project of Shah X LLC · © <span id="yr"></span> &mdash; <a href="/tos.html">Terms</a> · <a href="/privacy.html">Privacy</a> · <a href="/refund.html">Refund</a> · <a href="/pricing.html">Pricing</a></p>
+  </div>
+</footer>
+<script>document.getElementById('yr').textContent=new Date().getFullYear()</script>
+</body>
+</html>
