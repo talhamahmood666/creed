@@ -1,976 +1,226 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Creed AI Agency - Pipeline</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f1f5f9;color:#0f172a;}
-.hdr{background:linear-gradient(135deg,#0f172a,#1e3a5f);color:white;padding:24px 28px 20px;}
-.hdr h1{font-size:20px;font-weight:600;}
-.hdr p{color:#94a3b8;font-size:13px;margin-top:3px;}
-.hdr .g{color:#64748b;font-size:11px;margin-top:6px;}
-.sb{display:none;}
-.sb.show{display:flex;gap:12px;padding:14px 28px;background:white;border-bottom:1px solid #e2e8f0;flex-wrap:wrap;}
-.sbi{flex:1;min-width:100px;}
-.sbi-n{font-size:24px;font-weight:700;color:#0f172a;}
-.sbi-l{font-size:11px;color:#64748b;text-transform:uppercase;letter-spacing:0.5px;margin-top:1px;}
-.fb{padding:8px 28px;background:white;border-bottom:1px solid #e2e8f0;display:none;flex-wrap:wrap;gap:4px;}
-.fb.show{display:flex;}
-.funnel-badge{padding:2px 8px;border-radius:6px;font-size:11px;font-weight:500;}
-.c{max-width:1200px;margin:16px auto;padding:0 16px;display:none;}
-.c.show{display:block;}
-.cd{background:white;border-radius:8px;box-shadow:0 1px 2px rgba(0,0,0,0.05);overflow-x:auto;}
-table{width:100%;border-collapse:collapse;min-width:550px;}
-th{text-align:left;padding:10px 14px;font-size:10px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:0.8px;background:#f8fafc;border-bottom:2px solid #e2e8f0;}
-.td{padding:8px 14px;border-bottom:1px solid #f1f5f9;font-size:13px;}
-.td-muted{color:#64748b;}
-.td-small{font-size:12px;}
-.td-notes{max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.badge{padding:2px 8px;border-radius:6px;font-size:11px;font-weight:600;border:1px solid;}
-.em{text-align:center;padding:40px 20px;color:#94a3b8;}
-.em h3{color:#64748b;font-size:16px;margin-bottom:4px;}
-.ft{text-align:center;padding:16px;color:#94a3b8;font-size:11px;}
-.msg-box{display:none;text-align:center;padding:80px 20px;}
-.msg-box.show{display:block;}
-.msg-box h2{font-size:20px;color:#0f172a;margin-bottom:8px;}
-.msg-box p{color:#64748b;font-size:14px;}
-@media(max-width:600px){.hdr{padding:18px 16px;}.sb{padding:10px 16px;flex-direction:column;}.sbi{min-width:auto;}.fb{padding:6px 16px;}.c{padding:0 8px;}.th,.td{padding:6px 8px;font-size:12px;}.td-notes{max-width:100px;}}
-</style>
-</head>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Creed AI Agency - Pipeline</title><style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#f0f2f5;color:#1a1a2e;min-height:100vh}
+.top{background:linear-gradient(135deg,#1a1a2e 0%,#16213e 50%,#0f3460 100%);color:#fff;padding:20px 28px 16px}
+.top h1{font-size:22px;font-weight:700;letter-spacing:-0.3px}
+.top p{color:#8899b4;font-size:13px;margin-top:4px}
+.top .badge{display:inline-block;background:#3b82f640;color:#93bbfc;font-size:11px;padding:2px 10px;border-radius:12px;margin-top:6px}
+.tabs{display:flex;gap:2px;padding:0 28px;background:#fff;border-bottom:1px solid #e2e8f0;position:sticky;top:0;z-index:100}
+.tab{padding:12px 20px;font-size:13px;font-weight:500;color:#64748b;cursor:pointer;border-bottom:2px solid transparent;transition:all .15s}
+.tab:hover{color:#1a1a2e;background:#f8fafc}
+.tab.active{color:#3b82f6;border-bottom-color:#3b82f6;font-weight:600}
+.tc{display:none;max-width:1320px;margin:0 auto;padding:20px 16px}
+.tc.active{display:block}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:20px}
+.sc{background:#fff;border-radius:10px;padding:18px 20px;box-shadow:0 1px 3px rgba(0,0,0,.06);border:1px solid #e8ecf1;transition:transform .1s}
+.sc:hover{transform:translateY(-1px)}
+.sc .sv{font-size:28px;font-weight:700;letter-spacing:-0.5px}
+.sc .sv.g{color:#10b981}
+.sc .sv.b{color:#3b82f6}
+.sc .sv.r{color:#f43f5e}
+.sc .sv.a{color:#f59e0b}
+.sc .sl{font-size:11px;color:#64748b;text-transform:uppercase;letter-spacing:.5px;margin-top:3px}
+.sc .ss{font-size:12px;color:#94a3b8;margin-top:1px}
+.cd{background:#fff;border-radius:10px;box-shadow:0 1px 3px rgba(0,0,0,.06);border:1px solid #e8ecf1;margin-bottom:16px;overflow:hidden}
+.ct{padding:14px 18px;font-size:14px;font-weight:600;color:#1a1a2e;border-bottom:1px solid #e2e8f0;background:#fafbfc}
+table{width:100%;border-collapse:collapse}
+th{text-align:left;padding:10px 14px;font-size:10px;font-weight:600;color:#64748b;text-transform:uppercase;letter-spacing:.8px;background:#f8fafc;border-bottom:2px solid #e2e8f0;cursor:pointer;user-select:none;white-space:nowrap}
+th:hover{color:#1a1a2e}
+td{padding:10px 14px;border-bottom:1px solid #f1f5f9;font-size:13px;vertical-align:middle}
+.td-m{color:#64748b}
+.td-s{font-size:12px}
+.td-n{font-weight:600}
+.td-g{color:#059669}
+.em{text-align:center;padding:40px;color:#94a3b8;font-size:14px}
+.ft{text-align:center;padding:20px;color:#94a3b8;font-size:11px}
+.badge{display:inline-block;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:600;white-space:nowrap}
+.badge-test{background:#f43f5e15;color:#f43f5e;border:1px solid #f43f5e30;margin-left:6px}
+.badge-real{background:#10b98115;color:#10b981;border:1px solid #10b98130;margin-left:6px}
+.cname{font-weight:600;color:#1a1a2e}
+.ctarget{font-size:11px;color:#64748b;margin-top:2px}
+.lnk{color:#3b82f6;text-decoration:none;font-weight:500;font-size:13px}
+.lnk:hover{text-decoration:underline}
+.fbox{padding:14px 18px}
+.f-item{margin-bottom:10px}
+.f-lbl{display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px}
+.f-lbl .fn{font-weight:600;color:#1a1a2e}
+.f-lbl .fc{color:#64748b}
+.f-bar-bg{height:18px;background:#e8ecf1;border-radius:9px;overflow:hidden}
+.f-bar{height:100%;border-radius:9px;transition:width .4s ease;min-width:2px}
+.eg{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;padding:14px 18px}
+.eg-c{background:#f8fafc;border-radius:8px;padding:16px;text-align:center;border:1px solid #e2e8f0}
+.eg-v{font-size:22px;font-weight:700;color:#1a1a2e}
+.eg-l{font-size:10px;color:#64748b;text-transform:uppercase;letter-spacing:.4px;margin-top:4px}
+.eg-sub{color:#94a3b8;text-transform:none;letter-spacing:0}
+.sbar{display:flex;gap:10px;padding:14px 18px;flex-wrap:wrap;align-items:center;border-bottom:1px solid #e2e8f0}
+.sbar input{flex:1;min-width:200px;padding:8px 14px;border:1px solid #d1d5db;border-radius:6px;font-size:13px;outline:none}
+.sbar input:focus{border-color:#3b82f6;box-shadow:0 0 0 3px #3b82f615}
+.sbar select{padding:8px 12px;border:1px solid #d1d5db;border-radius:6px;font-size:13px;outline:none;background:#fff}
+.sbar label{font-size:12px;color:#64748b;display:flex;align-items:center;gap:6px;cursor:pointer}
+.stab{display:flex;gap:8px;padding:6px 14px;border-bottom:1px solid #e2e8f0;flex-wrap:wrap}
+.stab-item{padding:4px 12px;border-radius:12px;font-size:11px;font-weight:500;cursor:pointer;transition:all .1s}
+.stab-item.active{color:#fff!important}
+.stab-count{font-weight:700;margin-left:3px}
+.sort-icon{font-size:9px;margin-left:3px;color:#94a3b8}
+.bouncy{animation:bounce .3s ease}
+@keyframes bounce{0%{transform:scale(1)}50%{transform:scale(1.05)}100%{transform:scale(1)}}
+@media(max-width:700px){.top{padding:16px}.tabs{padding:0 10px;overflow-x:auto}.tab{padding:10px 14px;font-size:12px}.tc{padding:12px 8px}.stats{grid-template-columns:repeat(2,1fr);gap:8px}.sc{padding:12px}.sc .sv{font-size:22px}.eg{grid-template-columns:repeat(2,1fr)}th,td{padding:6px 8px;font-size:11px}.sbar{flex-direction:column}.sbar input{min-width:auto}}
+</style></head>
 <body>
-<div class="msg-box show" id="msgBox">
-    <h2>Validating access...</h2>
-    <p>Please wait</p>
+<div id="msgBox" style="display:flex;align-items:center;justify-content:center;min-height:100vh;background:#f0f2f5">
+<div style="text-align:center;padding:40px"><h2 style="color:#1a1a2e;margin-bottom:8px">Validating access...</h2><p style="color:#64748b">Please wait</p></div></div>
+<div id="dashContent" style="display:none">
+<div class="top"><h1>Creed AI Agency</h1><p>Pipeline Dashboard &middot; 2026-07-14 06:03 UTC</p><div class="badge">Token-protected</div></div>
+<div class="tabs" id="tabBar">
+<div class="tab active" data-tab="overview" onclick="switchTab('overview')">Overview</div>
+<div class="tab" data-tab="prospects" onclick="switchTab('prospects')">Prospects (142)</div>
+<div class="tab" data-tab="reports" onclick="switchTab('reports')">Reports</div>
 </div>
-<div id="dashContent" style="display:none;">
-<div class="hdr">
-    <h1>Creed AI Agency</h1>
-    <p>Prospect Pipeline</p>
-    <div class="g">Updated Jul 13, 2026 at 13:51 UTC</div>
-</div>
-<div class="sb show" id="statsBar">
-    <div class="sbi"><div class="sbi-n">127</div><div class="sbi-l">Total</div></div>
-    <div class="sbi"><div class="sbi-n">0</div><div class="sbi-l">Active</div></div>
-    <div class="sbi"><div class="sbi-n">127</div><div class="sbi-l">New</div></div>
-    <div class="sbi"><div class="sbi-n">0</div><div class="sbi-l">Booked</div></div>
-</div>
-<div class="fb show" id="funnelBar"><span class="funnel-badge" style="background:#3b82f612;color:#3b82f6;border:1px solid #3b82f625;">New: 127</span> </div>
-<div class="c show">
-    <div class="cd">
-        <table>
-            <thead><tr><th>Name</th><th>Company</th><th>Email</th><th>Stage</th><th>Notes</th></tr></thead>
-            <tbody>
-                
-            <tr>
-                <td class="td">Simonelouise Boutique</td>
-                <td class="td td-muted">Simonelouise Boutique</td>
-                <td class="td td-muted td-small">claire@simonelouiseboutique.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Verified email on site. Shopify. US boutique.</td>
-            </tr>
-            <tr>
-                <td class="td">Monkees Of Naples</td>
-                <td class="td td-muted">Monkees Of Naples</td>
-                <td class="td td-muted td-small">girls@monkeesofnaples.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Verified email on contact page. Shopify. US boutique (Naples, FL).</td>
-            </tr>
-            <tr>
-                <td class="td">Ish Shop</td>
-                <td class="td td-muted">Ish Shop</td>
-                <td class="td td-muted td-small">hello@ishshop.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Owner inbox. Shopify confirmed. US.</td>
-            </tr>
-            <tr>
-                <td class="td">Wild Precious Boutique</td>
-                <td class="td td-muted">Wild Precious Boutique</td>
-                <td class="td td-muted td-small">hello@wildpreciousboutique.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Owner inbox. Shopify confirmed. US.</td>
-            </tr>
-            <tr>
-                <td class="td">Laney Lus</td>
-                <td class="td td-muted">Laney Lus</td>
-                <td class="td td-muted td-small">shop@laneylus.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Owner inbox. Shopify confirmed. US.</td>
-            </tr>
-            <tr>
-                <td class="td">Dash Pot NYC</td>
-                <td class="td td-muted">Dash Pot NYC</td>
-                <td class="td td-muted td-small">info@daspotnyc.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Owner inbox. Shopify confirmed. NYC.</td>
-            </tr>
-            <tr>
-                <td class="td">Habits JH</td>
-                <td class="td td-muted">Habits JH</td>
-                <td class="td td-muted td-small">info@habitsjh.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Owner inbox. Shopify confirmed. US.</td>
-            </tr>
-            <tr>
-                <td class="td">Mimi Boutique</td>
-                <td class="td td-muted">The Mimi Boutique</td>
-                <td class="td td-muted td-small">mimi@themimiboutique.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Real person email. Shopify confirmed. US boutique.</td>
-            </tr>
-            <tr>
-                <td class="td">Packer Shoes</td>
-                <td class="td td-muted">Packer Shoes</td>
-                <td class="td td-muted td-small">jc@packershoes.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Real person email jc@. Shopify confirmed. US shoe store.</td>
-            </tr>
-            <tr>
-                <td class="td">Request Boutique</td>
-                <td class="td td-muted">Request Boutique</td>
-                <td class="td td-muted td-small">info@requestboutique.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Owner inbox. Shopify confirmed. US.</td>
-            </tr>
-            <tr>
-                <td class="td">Magnolia Boutique</td>
-                <td class="td td-muted">Magnolia Boutique</td>
-                <td class="td td-muted td-small">info@magnoliaboutique.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Shopify clothing boutique. Owner inbox (info@).</td>
-            </tr>
-            <tr>
-                <td class="td">Hazel and Olive</td>
-                <td class="td td-muted">Hazel &amp; Olive</td>
-                <td class="td td-muted td-small">sales@hazelandolive.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Shopify clothing boutique. Owner inbox (sales@).</td>
-            </tr>
-            <tr>
-                <td class="td">Mane Beauty Boutique</td>
-                <td class="td td-muted">Mane Beauty Boutique</td>
-                <td class="td td-muted td-small">manebeautyboutique@gmail.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Wix platform (not Shopify). Gmail contact. Beauty boutique.</td>
-            </tr>
-            <tr>
-                <td class="td">https://allurebridals.com</td>
-                <td class="td td-muted">https://allurebridals.com</td>
-                <td class="td td-muted td-small">ntim@allurebridals.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found. Shopify.</td>
-            </tr>
-            <tr>
-                <td class="td">https://www.kleinfeldbridal.com</td>
-                <td class="td td-muted">https://www.kleinfeldbridal.com</td>
-                <td class="td td-muted td-small">interns@kleinfeldbridal.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found. Shopify.</td>
-            </tr>
-            <tr>
-                <td class="td">https://www.thrifted.com</td>
-                <td class="td td-muted">https://www.thrifted.com</td>
-                <td class="td td-muted td-small">theteam@thrifted.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found. Shopify.</td>
-            </tr>
-            <tr>
-                <td class="td">https://wearicy.com</td>
-                <td class="td td-muted">https://wearicy.com</td>
-                <td class="td td-muted td-small">info@wearicy.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found. Shopify.</td>
-            </tr>
-            <tr>
-                <td class="td">https://www.unique-vintage.com</td>
-                <td class="td td-muted">https://www.unique-vintage.com</td>
-                <td class="td td-muted td-small">service@uniquevintage.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found. Shopify.</td>
-            </tr>
-            <tr>
-                <td class="td">https://mejuri.com</td>
-                <td class="td td-muted">https://mejuri.com</td>
-                <td class="td td-muted td-small">contact@mejuri.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found. Shopify.</td>
-            </tr>
-            <tr>
-                <td class="td">https://www.honeybirdette.com</td>
-                <td class="td td-muted">https://www.honeybirdette.com</td>
-                <td class="td td-muted td-small">honey@honeybirdette.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found. Shopify.</td>
-            </tr>
-            <tr>
-                <td class="td">https://quizell.com</td>
-                <td class="td td-muted">https://quizell.com</td>
-                <td class="td td-muted td-small">support@quizell.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found. Small store.</td>
-            </tr>
-            <tr>
-                <td class="td">https://lealboutique.com</td>
-                <td class="td td-muted">https://lealboutique.com</td>
-                <td class="td td-muted td-small">shopleal@lealboutique.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found. Small store.</td>
-            </tr>
-            <tr>
-                <td class="td">https://shopmoco.com</td>
-                <td class="td td-muted">https://shopmoco.com</td>
-                <td class="td td-muted td-small">contact@shopmoco.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found. Small store.</td>
-            </tr>
-            <tr>
-                <td class="td">https://www.humanrightscareers.com</td>
-                <td class="td td-muted">https://www.humanrightscareers.com</td>
-                <td class="td td-muted td-small">admin@humanrightscareers.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://msmagazine.com</td>
-                <td class="td td-muted">https://msmagazine.com</td>
-                <td class="td td-muted td-small">info@msmagazine.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://www.careerexplorer.com</td>
-                <td class="td td-muted">https://www.careerexplorer.com</td>
-                <td class="td td-muted td-small">sales@careerexplorer.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://blog.theinterviewguys.com</td>
-                <td class="td td-muted">https://blog.theinterviewguys.com</td>
-                <td class="td td-muted td-small">support@theinterviewguys.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://www.sortlist.com</td>
-                <td class="td td-muted">https://www.sortlist.com</td>
-                <td class="td td-muted td-small">jane.doe@acme.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://www.everydayhealth.com</td>
-                <td class="td td-muted">https://www.everydayhealth.com</td>
-                <td class="td td-muted td-small">Support@everydayhealth.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://collinsconcrete.com</td>
-                <td class="td td-muted">https://collinsconcrete.com</td>
-                <td class="td td-muted td-small">info@collinsconcrete.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://werockdallas.com</td>
-                <td class="td td-muted">https://werockdallas.com</td>
-                <td class="td td-muted td-small">info@werockdallas.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://www.studioalouisville.com</td>
-                <td class="td td-muted">https://www.studioalouisville.com</td>
-                <td class="td td-muted td-small">info@studioalouisville.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://threebestrated.com</td>
-                <td class="td td-muted">https://threebestrated.com</td>
-                <td class="td td-muted td-small">support@threebestrated.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://antiquestorelocator.com</td>
-                <td class="td td-muted">https://antiquestorelocator.com</td>
-                <td class="td td-muted td-small">your@email.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://www.antiquestoresnearby.com</td>
-                <td class="td td-muted">https://www.antiquestoresnearby.com</td>
-                <td class="td td-muted td-small">u002F061d11a338184f01ad93d1e4fa6838f7@glitchtip.antiquestoresnearby.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://www.xclusiveautodetailing.com</td>
-                <td class="td td-muted">https://www.xclusiveautodetailing.com</td>
-                <td class="td td-muted td-small">XCLUSIVEAUTODETAIL2211@GMAIL.COM</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://realdealdetailinglouisville.com</td>
-                <td class="td td-muted">https://realdealdetailinglouisville.com</td>
-                <td class="td td-muted td-small">info@realdealdetailinglouisville.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://www.maccosmetics.com</td>
-                <td class="td td-muted">https://www.maccosmetics.com</td>
-                <td class="td td-muted td-small">jane@maccosmetics.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://www.consumeraffairs.com</td>
-                <td class="td td-muted">https://www.consumeraffairs.com</td>
-                <td class="td td-muted td-small">0954ab4f6a2d469b816f8ed8a2d0f5da@stderr.consumeraffairs.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://lionshvac.com</td>
-                <td class="td td-muted">https://lionshvac.com</td>
-                <td class="td td-muted td-small">Info@lionshvac.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://a-z-animals.com</td>
-                <td class="td td-muted">https://a-z-animals.com</td>
-                <td class="td td-muted td-small">contact@a-z-animals.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://www.theitalianexperiment.com</td>
-                <td class="td td-muted">https://www.theitalianexperiment.com</td>
-                <td class="td td-muted td-small">hello@theitalianexperiment.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://www.thisoldhouse.com</td>
-                <td class="td td-muted">https://www.thisoldhouse.com</td>
-                <td class="td td-muted td-small">contact@thisoldhouse.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://www.civilengineermag.com</td>
-                <td class="td td-muted">https://www.civilengineermag.com</td>
-                <td class="td td-muted td-small">info@civilengineermag.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://plastermagic.com</td>
-                <td class="td td-muted">https://plastermagic.com</td>
-                <td class="td td-muted td-small">info@plastermagic.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://www.carmenorthodontics.com</td>
-                <td class="td td-muted">https://www.carmenorthodontics.com</td>
-                <td class="td td-muted td-small">info1@carmenorthodontics.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://www.polarisorthodonticcenter.com</td>
-                <td class="td td-muted">https://www.polarisorthodonticcenter.com</td>
-                <td class="td td-muted td-small">info@polarisorthodonticcenter.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://www.globalsmiles.us</td>
-                <td class="td td-muted">https://www.globalsmiles.us</td>
-                <td class="td td-muted td-small">info@globalsmiles.us</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://www.messortho.com</td>
-                <td class="td td-muted">https://www.messortho.com</td>
-                <td class="td td-muted td-small">info@messortho.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://www.plasterceiling.com.my</td>
-                <td class="td td-muted">https://www.plasterceiling.com.my</td>
-                <td class="td td-muted td-small">mrceiling.plasterceiling@gmail.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://uniplaster.com.my</td>
-                <td class="td td-muted">https://uniplaster.com.my</td>
-                <td class="td td-muted td-small">uniplaster.enquiry@gmail.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://www.columbusorthodonticcenter.com</td>
-                <td class="td td-muted">https://www.columbusorthodonticcenter.com</td>
-                <td class="td td-muted td-small">info@columbusorthodonticcenter.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://www.hewittestatesantiques.com</td>
-                <td class="td td-muted">https://www.hewittestatesantiques.com</td>
-                <td class="td td-muted td-small">hewitt1901antiques@gmail.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://www.estatesales.net</td>
-                <td class="td td-muted">https://www.estatesales.net</td>
-                <td class="td td-muted td-small">t.teardo@wannenesgroup.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://www.animalfactsencyclopedia.com</td>
-                <td class="td td-muted">https://www.animalfactsencyclopedia.com</td>
-                <td class="td td-muted td-small">info@animalfactsencyclopedia.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://www.estately.com</td>
-                <td class="td td-muted">https://www.estately.com</td>
-                <td class="td td-muted td-small">support@estately.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://www.girlfriendsestatesales.com</td>
-                <td class="td td-muted">https://www.girlfriendsestatesales.com</td>
-                <td class="td td-muted td-small">contact@girlfriendsestatesales.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://www.nebraskamed.com</td>
-                <td class="td td-muted">https://www.nebraskamed.com</td>
-                <td class="td td-muted td-small">twilson@nebraskamed.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://handymanjacks.com</td>
-                <td class="td td-muted">https://handymanjacks.com</td>
-                <td class="td td-muted td-small">hello@handymanjacks.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://omahasinus.com</td>
-                <td class="td td-muted">https://omahasinus.com</td>
-                <td class="td td-muted td-small">contactus@omahasinus.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://www.herringstonesboutique.com</td>
-                <td class="td td-muted">https://www.herringstonesboutique.com</td>
-                <td class="td td-muted td-small">herringstonesCS@gmail.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://shophemlinemonroe.com</td>
-                <td class="td td-muted">https://shophemlinemonroe.com</td>
-                <td class="td td-muted td-small">monroe@shophemline.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://shopcaras.com</td>
-                <td class="td td-muted">https://shopcaras.com</td>
-                <td class="td td-muted td-small">hello@shopcaras.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://www.shoplolajane.com</td>
-                <td class="td td-muted">https://www.shoplolajane.com</td>
-                <td class="td td-muted td-small">lolajaneboutique@yahoo.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://www.parkwayanimalcenter.com</td>
-                <td class="td td-muted">https://www.parkwayanimalcenter.com</td>
-                <td class="td td-muted td-small">info@parkwayanimalcenter.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://www.worldofvegan.com</td>
-                <td class="td td-muted">https://www.worldofvegan.com</td>
-                <td class="td td-muted td-small">hello@worldofvegan.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://barneyandrussum.net</td>
-                <td class="td td-muted">https://barneyandrussum.net</td>
-                <td class="td td-muted td-small">barneyandrussum@yahoo.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://rainbowplantlife.com</td>
-                <td class="td td-muted">https://rainbowplantlife.com</td>
-                <td class="td td-muted td-small">hello@rainbowplantlife.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://solanopetemergency.com</td>
-                <td class="td td-muted">https://solanopetemergency.com</td>
-                <td class="td td-muted td-small">staff@solanopetemergency.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://health.usnews.com</td>
-                <td class="td td-muted">https://health.usnews.com</td>
-                <td class="td td-muted td-small">csmith-schoenwalder@usnews.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://animalvetsfairfield.com</td>
-                <td class="td td-muted">https://animalvetsfairfield.com</td>
-                <td class="td td-muted td-small">staff@animalvetfairfield.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://www.locksmithunited.com</td>
-                <td class="td td-muted">https://www.locksmithunited.com</td>
-                <td class="td td-muted td-small">info@locksmithunited.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://hawaiiperio.com</td>
-                <td class="td td-muted">https://hawaiiperio.com</td>
-                <td class="td td-muted td-small">periospecialistsofhi@gmail.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://dentalcountry.com</td>
-                <td class="td td-muted">https://dentalcountry.com</td>
-                <td class="td td-muted td-small">support@dentalcountry.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://alamoanadentalcare.com</td>
-                <td class="td td-muted">https://alamoanadentalcare.com</td>
-                <td class="td td-muted td-small">info@alamoanadentalcare.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://www.kokuasmiles.com</td>
-                <td class="td td-muted">https://www.kokuasmiles.com</td>
-                <td class="td td-muted td-small">angelyn@kokua.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://www.decorilla.com</td>
-                <td class="td td-muted">https://www.decorilla.com</td>
-                <td class="td td-muted td-small">help@decorilla.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://www.koestercon.com</td>
-                <td class="td td-muted">https://www.koestercon.com</td>
-                <td class="td td-muted td-small">koester@koestercon.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://www.hgtv.com</td>
-                <td class="td td-muted">https://www.hgtv.com</td>
-                <td class="td td-muted td-small">HGTV@wrightsmedia.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://vincentgc.com</td>
-                <td class="td td-muted">https://vincentgc.com</td>
-                <td class="td td-muted td-small">Jay@vincentgc.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://secretseattle.co</td>
-                <td class="td td-muted">https://secretseattle.co</td>
-                <td class="td td-muted td-small">seattle@secretmedianetwork.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://www.ananyaspaseattle.com</td>
-                <td class="td td-muted">https://www.ananyaspaseattle.com</td>
-                <td class="td td-muted td-small">guestservices@ananyaspaseattle.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://farmfoodfamily.com</td>
-                <td class="td td-muted">https://farmfoodfamily.com</td>
-                <td class="td td-muted td-small">kim.farmfoodfamily@gmail.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://ecotree.green</td>
-                <td class="td td-muted">https://ecotree.green</td>
-                <td class="td td-muted td-small">hello@ecotree.green</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://growtherapy.com</td>
-                <td class="td td-muted">https://growtherapy.com</td>
-                <td class="td td-muted td-small">magellan.support@growtherapy.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://www.rula.com</td>
-                <td class="td td-muted">https://www.rula.com</td>
-                <td class="td td-muted td-small">partnerships@rula.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://www.perfectiontire.com</td>
-                <td class="td td-muted">https://www.perfectiontire.com</td>
-                <td class="td td-muted td-small">info@perfectiontire.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://www.lesschwab.com</td>
-                <td class="td td-muted">https://www.lesschwab.com</td>
-                <td class="td td-muted td-small">lstcprineville.011@lesschwab.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://revibementalhealth.com</td>
-                <td class="td td-muted">https://revibementalhealth.com</td>
-                <td class="td td-muted td-small">info@revibementalhealth.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://www.biography.com</td>
-                <td class="td td-muted">https://www.biography.com</td>
-                <td class="td td-muted td-small">editor@biography.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://www.instantroofer.com</td>
-                <td class="td td-muted">https://www.instantroofer.com</td>
-                <td class="td td-muted td-small">hello@instantroofer.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://carmenroofing.com</td>
-                <td class="td td-muted">https://carmenroofing.com</td>
-                <td class="td td-muted td-small">info@carmenroofing.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://iqbalcateringbd.com</td>
-                <td class="td td-muted">https://iqbalcateringbd.com</td>
-                <td class="td td-muted td-small">iqbalcatering77@gmail.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://www.bestlawyers.com</td>
-                <td class="td td-muted">https://www.bestlawyers.com</td>
-                <td class="td td-muted td-small">info@bestlawyers.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://www.cosgravelaw.com</td>
-                <td class="td td-muted">https://www.cosgravelaw.com</td>
-                <td class="td td-muted td-small">info@cosgravelaw.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://paragoncateringbd.com</td>
-                <td class="td td-muted">https://paragoncateringbd.com</td>
-                <td class="td td-muted td-small">paragoncatering@gmail.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://desibenjon.com</td>
-                <td class="td td-muted">https://desibenjon.com</td>
-                <td class="td td-muted td-small">support@desibenjon.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://palmeracatering.com</td>
-                <td class="td td-muted">https://palmeracatering.com</td>
-                <td class="td td-muted td-small">hello@palmeracatering.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://www.thechiroguy.com</td>
-                <td class="td td-muted">https://www.thechiroguy.com</td>
-                <td class="td td-muted td-small">info@thechiroguy.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://www.bonappetit.com</td>
-                <td class="td td-muted">https://www.bonappetit.com</td>
-                <td class="td td-muted td-small">help@newyorker.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://tasty.co</td>
-                <td class="td td-muted">https://tasty.co</td>
-                <td class="td td-muted td-small">support@buzzfeed.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://homeprojectcalculator.com</td>
-                <td class="td td-muted">https://homeprojectcalculator.com</td>
-                <td class="td td-muted td-small">support@homeprojectcalculator.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://www.westhawaiitoday.com</td>
-                <td class="td td-muted">https://www.westhawaiitoday.com</td>
-                <td class="td td-muted td-small">clangs@westhawaiitoday.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://yellowstoneclub.com</td>
-                <td class="td td-muted">https://yellowstoneclub.com</td>
-                <td class="td td-muted td-small">concierge@yellowstoneclub.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://www.patreon.com</td>
-                <td class="td td-muted">https://www.patreon.com</td>
-                <td class="td td-muted td-small">no-reply@patreon.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://flawlessbeautyandskin.com</td>
-                <td class="td td-muted">https://flawlessbeautyandskin.com</td>
-                <td class="td td-muted td-small">customerservice@flawlessbeautyandskin.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://www.worldatlas.com</td>
-                <td class="td td-muted">https://www.worldatlas.com</td>
-                <td class="td td-muted td-small">leia.organa@alderan.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://richardsondentistry.com</td>
-                <td class="td td-muted">https://richardsondentistry.com</td>
-                <td class="td td-muted td-small">info@RichardsonDentistry.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://www.citylinedentalcenter.com</td>
-                <td class="td td-muted">https://www.citylinedentalcenter.com</td>
-                <td class="td td-muted td-small">care@citylinedentalcenter.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://articles.hepper.com</td>
-                <td class="td td-muted">https://articles.hepper.com</td>
-                <td class="td td-muted td-small">hi@hepper.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://dogsvets.com</td>
-                <td class="td td-muted">https://dogsvets.com</td>
-                <td class="td td-muted td-small">info@dogsvets.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://www.canyoncreekfamilydentistry.com</td>
-                <td class="td td-muted">https://www.canyoncreekfamilydentistry.com</td>
-                <td class="td td-muted td-small">ccfd2091@gmail.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://www.nature.com</td>
-                <td class="td td-muted">https://www.nature.com</td>
-                <td class="td td-muted td-small">jo.smith@university.ac.uk</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://www.sciencefocus.com</td>
-                <td class="td td-muted">https://www.sciencefocus.com</td>
-                <td class="td td-muted td-small">lily.watts@ourmedia.co.uk</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://www.w3schools.com</td>
-                <td class="td td-muted">https://www.w3schools.com</td>
-                <td class="td td-muted td-small">help@w3schools.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://www.justwatch.com</td>
-                <td class="td td-muted">https://www.justwatch.com</td>
-                <td class="td td-muted td-small">feedback@justwatch.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://oasiscoolingheating.com</td>
-                <td class="td td-muted">https://oasiscoolingheating.com</td>
-                <td class="td td-muted td-small">office@oasiscoolingheating.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://web2.0calc.com</td>
-                <td class="td td-muted">https://web2.0calc.com</td>
-                <td class="td td-muted td-small">britnex@gmail.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://www.mathway.com</td>
-                <td class="td td-muted">https://www.mathway.com</td>
-                <td class="td td-muted td-small">support@mathway.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://www.calculatorsoup.com</td>
-                <td class="td td-muted">https://www.calculatorsoup.com</td>
-                <td class="td td-muted td-small">support@calculatorsoup.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://todayshomeowner.com</td>
-                <td class="td td-muted">https://todayshomeowner.com</td>
-                <td class="td td-muted td-small">hello@todayshomeowner.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://byjus.com</td>
-                <td class="td td-muted">https://byjus.com</td>
-                <td class="td td-muted td-small">contact@byjus.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://www.policygenius.com</td>
-                <td class="td td-muted">https://www.policygenius.com</td>
-                <td class="td td-muted td-small">team@policygenius.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://www.autoinsurance.com</td>
-                <td class="td td-muted">https://www.autoinsurance.com</td>
-                <td class="td td-muted td-small">info@autoinsurance.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://www.compare.com</td>
-                <td class="td td-muted">https://www.compare.com</td>
-                <td class="td td-muted td-small">press@insurify.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://insurify.com</td>
-                <td class="td td-muted">https://insurify.com</td>
-                <td class="td td-muted td-small">hello@insurify.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            <tr>
-                <td class="td">https://www.vitals.com</td>
-                <td class="td td-muted">https://www.vitals.com</td>
-                <td class="td td-muted td-small">info@vitals.com</td>
-                <td class="td"><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td>
-                <td class="td td-muted td-small td-notes">Auto-found.</td>
-            </tr>
-            </tbody>
-        </table>
+<div id="tab-overview" class="tc active">
+    
+    <div class="stats">
+        <div class="sc"><div class="sv b">142</div><div class="sl">Prospects</div></div>
+        <div class="sc"><div class="sv g">0</div><div class="sl">Active</div><div class="ss">0 replied</div></div>
+        <div class="sc"><div class="sv a">0</div><div class="sl">Booked</div></div>
+        <div class="sc"><div class="sv">25</div><div class="sl">Emails Sent</div></div>
+        <div class="sc"><div class="sv g">0.0%</div><div class="sl">Reply Rate</div></div>
+        <div class="sc"><div class="sv">$0</div><div class="sl">Revenue</div></div>
     </div>
-</div>
-</div>
-<div class="ft">Creed AI Agency</div>
-<script>
-(function(){
-    var params = new URLSearchParams(window.location.search);
-    var t = params.get('token') || '';
-    var correctToken = 'cr33d-m45t3r-t0k3n-2026';
-    if (t === correctToken) {
-        document.getElementById('msgBox').classList.remove('show');
-        document.getElementById('msgBox').style.display = 'none';
-        document.getElementById('dashContent').style.display = 'block';
-    } else {
-        document.getElementById('msgBox').innerHTML = '<h2>Access Denied</h2><p>Invalid or missing access token. Please use the link provided by your account manager.</p>';
+    
+    <div class="cd">
+        <div class="ct">Pipeline Funnel &mdash; 142 total</div>
+        <div class="fbox">
+        <div class="f-item">
+            <div class="f-lbl"><span class="fn">New</span><span class="fc">117</span></div>
+            <div class="f-bar-bg"><div class="f-bar" style="width:82.4%;background:#3b82f6;"></div></div>
+        </div>
+        <div class="f-item">
+            <div class="f-lbl"><span class="fn">Day0Sent</span><span class="fc">25</span></div>
+            <div class="f-bar-bg"><div class="f-bar" style="width:17.6%;background:#8b5cf6;"></div></div>
+        </div></div>
+    </div>
+    
+    <div class="cd">
+        <div class="ct">Email Engagement</div>
+        <div class="eg">
+            <div class="eg-c"><div class="eg-v">25</div><div class="eg-l">Sent</div></div>
+            <div class="eg-c"><div class="eg-v">0.0%</div><div class="eg-l">Opened <span class="eg-sub">(0)</span></div></div>
+            <div class="eg-c"><div class="eg-v" style="color:#10b981">0.0%</div><div class="eg-l">Replied <span class="eg-sub">(0)</span></div></div>
+            <div class="eg-c"><div class="eg-v">0.0%</div><div class="eg-l">Clicked <span class="eg-sub">(0)</span></div></div>
+        </div>
+    </div>
+    
+    <div class="cd">
+        <div class="ct">Revenue &amp; Projections</div>
+        <div class="eg">
+            <div class="eg-c"><div class="eg-v" style="color:#059669">$0</div><div class="eg-l">Actual Revenue</div></div>
+            <div class="eg-c"><div class="eg-v">0</div><div class="eg-l">Booked Deals</div></div>
+            <div class="eg-c"><div class="eg-v" style="color:#3b82f6">$997</div><div class="eg-l">Projected <span class="eg-sub">(1 deals)</span></div></div>
+            <div class="eg-c"><div class="eg-v">$997</div><div class="eg-l">Avg Deal Size</div></div>
+            <div class="eg-c"><div class="eg-v">$5.8k</div><div class="eg-l">Pipeline Value</div></div>
+            <div class="eg-c"><div class="eg-v">24</div><div class="eg-l">Contacted</div></div>
+        </div>
+    </div></div>
+<div id="tab-prospects" class="tc">
+    <div class="cd">
+        <div class="ct">Creed AI Agency Prospects (142)</div>
+        <div class="sbar">
+            <input type="text" id="searchInput" placeholder="Search by name, email, or company..." oninput="filterProspects()">
+            <select id="stageFilter" onchange="filterProspects()">
+                <option value="all">All stages</option>
+                <option value="New">New</option><option value="Day0Sent">Day0Sent</option>
+            </select>
+            <label><input type="checkbox" id="hideTests"> Hide test prospects</label>
+        </div>
+        <div class="stab" id="stageTabs"><div class="stab-item active" data-stage="all" onclick="filterStage(this)">All <span class="stab-count" style="color:#64748b">142</span></div><div class="stab-item" data-stage="Day0Sent" onclick="filterStage(this)" style="color:#8b5cf6">Day0Sent <span class="stab-count" style="color:#8b5cf680">25</span></div><div class="stab-item" data-stage="New" onclick="filterStage(this)" style="color:#3b82f6">New <span class="stab-count" style="color:#3b82f680">117</span></div></div>
+        <div style="overflow-x:auto">
+        <table id="prospectTable">
+            <thead><tr><th onclick="sortTable(0)">Name <span class="sort-icon">&#8595;&#8593;</span></th><th onclick="sortTable(1)">Company <span class="sort-icon">&#8595;&#8593;</span></th><th onclick="sortTable(2)">Email <span class="sort-icon">&#8595;&#8593;</span></th><th onclick="sortTable(3)">Stage <span class="sort-icon">&#8595;&#8593;</span></th></tr></thead>
+            <tbody><tr data-test="0"><td><span class="cname">Simonelouise Boutique</span></td><td><span class="td-m">Simonelouise Boutique</span></td><td><span class="td-m td-s">claire@simonelouiseboutique.com</span></td><td><span class="badge" style="background:#8b5cf615;color:#8b5cf6;border-color:#8b5cf630;">Day0Sent</span></td></tr><tr data-test="0"><td><span class="cname">Monkees Of Naples</span></td><td><span class="td-m">Monkees Of Naples</span></td><td><span class="td-m td-s">girls@monkeesofnaples.com</span></td><td><span class="badge" style="background:#8b5cf615;color:#8b5cf6;border-color:#8b5cf630;">Day0Sent</span></td></tr><tr data-test="0"><td><span class="cname">Ish Shop</span></td><td><span class="td-m">Ish Shop</span></td><td><span class="td-m td-s">hello@ishshop.com</span></td><td><span class="badge" style="background:#8b5cf615;color:#8b5cf6;border-color:#8b5cf630;">Day0Sent</span></td></tr><tr data-test="0"><td><span class="cname">Wild Precious Boutique</span></td><td><span class="td-m">Wild Precious Boutique</span></td><td><span class="td-m td-s">hello@wildpreciousboutique.com</span></td><td><span class="badge" style="background:#8b5cf615;color:#8b5cf6;border-color:#8b5cf630;">Day0Sent</span></td></tr><tr data-test="0"><td><span class="cname">Laney Lus</span></td><td><span class="td-m">Laney Lus</span></td><td><span class="td-m td-s">shop@laneylus.com</span></td><td><span class="badge" style="background:#8b5cf615;color:#8b5cf6;border-color:#8b5cf630;">Day0Sent</span></td></tr><tr data-test="0"><td><span class="cname">Dash Pot NYC</span></td><td><span class="td-m">Dash Pot NYC</span></td><td><span class="td-m td-s">info@daspotnyc.com</span></td><td><span class="badge" style="background:#8b5cf615;color:#8b5cf6;border-color:#8b5cf630;">Day0Sent</span></td></tr><tr data-test="0"><td><span class="cname">Habits JH</span></td><td><span class="td-m">Habits JH</span></td><td><span class="td-m td-s">info@habitsjh.com</span></td><td><span class="badge" style="background:#8b5cf615;color:#8b5cf6;border-color:#8b5cf630;">Day0Sent</span></td></tr><tr data-test="0"><td><span class="cname">Mimi Boutique</span></td><td><span class="td-m">The Mimi Boutique</span></td><td><span class="td-m td-s">mimi@themimiboutique.com</span></td><td><span class="badge" style="background:#8b5cf615;color:#8b5cf6;border-color:#8b5cf630;">Day0Sent</span></td></tr><tr data-test="0"><td><span class="cname">Packer Shoes</span></td><td><span class="td-m">Packer Shoes</span></td><td><span class="td-m td-s">jc@packershoes.com</span></td><td><span class="badge" style="background:#8b5cf615;color:#8b5cf6;border-color:#8b5cf630;">Day0Sent</span></td></tr><tr data-test="0"><td><span class="cname">Request Boutique</span></td><td><span class="td-m">Request Boutique</span></td><td><span class="td-m td-s">info@requestboutique.com</span></td><td><span class="badge" style="background:#8b5cf615;color:#8b5cf6;border-color:#8b5cf630;">Day0Sent</span></td></tr><tr data-test="0"><td><span class="cname">Magnolia Boutique</span></td><td><span class="td-m">Magnolia Boutique</span></td><td><span class="td-m td-s">info@magnoliaboutique.com</span></td><td><span class="badge" style="background:#8b5cf615;color:#8b5cf6;border-color:#8b5cf630;">Day0Sent</span></td></tr><tr data-test="0"><td><span class="cname">Hazel and Olive</span></td><td><span class="td-m">Hazel &amp; Olive</span></td><td><span class="td-m td-s">sales@hazelandolive.com</span></td><td><span class="badge" style="background:#8b5cf615;color:#8b5cf6;border-color:#8b5cf630;">Day0Sent</span></td></tr><tr data-test="0"><td><span class="cname">Mane Beauty Boutique</span></td><td><span class="td-m">Mane Beauty Boutique</span></td><td><span class="td-m td-s">manebeautyboutique@gmail.com</span></td><td><span class="badge" style="background:#8b5cf615;color:#8b5cf6;border-color:#8b5cf630;">Day0Sent</span></td></tr><tr data-test="0"><td><span class="cname">https://allurebridals.com</span></td><td><span class="td-m">https://allurebridals.com</span></td><td><span class="td-m td-s">ntim@allurebridals.com</span></td><td><span class="badge" style="background:#8b5cf615;color:#8b5cf6;border-color:#8b5cf630;">Day0Sent</span></td></tr><tr data-test="0"><td><span class="cname">https://www.kleinfeldbridal.com</span></td><td><span class="td-m">https://www.kleinfeldbridal.com</span></td><td><span class="td-m td-s">interns@kleinfeldbridal.com</span></td><td><span class="badge" style="background:#8b5cf615;color:#8b5cf6;border-color:#8b5cf630;">Day0Sent</span></td></tr><tr data-test="0"><td><span class="cname">https://www.thrifted.com</span></td><td><span class="td-m">https://www.thrifted.com</span></td><td><span class="td-m td-s">theteam@thrifted.com</span></td><td><span class="badge" style="background:#8b5cf615;color:#8b5cf6;border-color:#8b5cf630;">Day0Sent</span></td></tr><tr data-test="0"><td><span class="cname">https://wearicy.com</span></td><td><span class="td-m">https://wearicy.com</span></td><td><span class="td-m td-s">info@wearicy.com</span></td><td><span class="badge" style="background:#8b5cf615;color:#8b5cf6;border-color:#8b5cf630;">Day0Sent</span></td></tr><tr data-test="0"><td><span class="cname">https://www.unique-vintage.com</span></td><td><span class="td-m">https://www.unique-vintage.com</span></td><td><span class="td-m td-s">service@uniquevintage.com</span></td><td><span class="badge" style="background:#8b5cf615;color:#8b5cf6;border-color:#8b5cf630;">Day0Sent</span></td></tr><tr data-test="0"><td><span class="cname">https://mejuri.com</span></td><td><span class="td-m">https://mejuri.com</span></td><td><span class="td-m td-s">contact@mejuri.com</span></td><td><span class="badge" style="background:#8b5cf615;color:#8b5cf6;border-color:#8b5cf630;">Day0Sent</span></td></tr><tr data-test="0"><td><span class="cname">https://www.honeybirdette.com</span></td><td><span class="td-m">https://www.honeybirdette.com</span></td><td><span class="td-m td-s">honey@honeybirdette.com</span></td><td><span class="badge" style="background:#8b5cf615;color:#8b5cf6;border-color:#8b5cf630;">Day0Sent</span></td></tr><tr data-test="0"><td><span class="cname">https://quizell.com</span></td><td><span class="td-m">https://quizell.com</span></td><td><span class="td-m td-s">support@quizell.com</span></td><td><span class="badge" style="background:#8b5cf615;color:#8b5cf6;border-color:#8b5cf630;">Day0Sent</span></td></tr><tr data-test="0"><td><span class="cname">https://lealboutique.com</span></td><td><span class="td-m">https://lealboutique.com</span></td><td><span class="td-m td-s">shopleal@lealboutique.com</span></td><td><span class="badge" style="background:#8b5cf615;color:#8b5cf6;border-color:#8b5cf630;">Day0Sent</span></td></tr><tr data-test="0"><td><span class="cname">https://shopmoco.com</span></td><td><span class="td-m">https://shopmoco.com</span></td><td><span class="td-m td-s">contact@shopmoco.com</span></td><td><span class="badge" style="background:#8b5cf615;color:#8b5cf6;border-color:#8b5cf630;">Day0Sent</span></td></tr><tr data-test="0"><td><span class="cname">https://www.humanrightscareers.com</span></td><td><span class="td-m">https://www.humanrightscareers.com</span></td><td><span class="td-m td-s">admin@humanrightscareers.com</span></td><td><span class="badge" style="background:#8b5cf615;color:#8b5cf6;border-color:#8b5cf630;">Day0Sent</span></td></tr><tr data-test="0"><td><span class="cname">https://msmagazine.com</span></td><td><span class="td-m">https://msmagazine.com</span></td><td><span class="td-m td-s">info@msmagazine.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://www.careerexplorer.com</span></td><td><span class="td-m">https://www.careerexplorer.com</span></td><td><span class="td-m td-s">sales@careerexplorer.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://blog.theinterviewguys.com</span></td><td><span class="td-m">https://blog.theinterviewguys.com</span></td><td><span class="td-m td-s">support@theinterviewguys.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://www.sortlist.com</span></td><td><span class="td-m">https://www.sortlist.com</span></td><td><span class="td-m td-s">jane.doe@acme.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://www.everydayhealth.com</span></td><td><span class="td-m">https://www.everydayhealth.com</span></td><td><span class="td-m td-s">Support@everydayhealth.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://collinsconcrete.com</span></td><td><span class="td-m">https://collinsconcrete.com</span></td><td><span class="td-m td-s">info@collinsconcrete.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://werockdallas.com</span></td><td><span class="td-m">https://werockdallas.com</span></td><td><span class="td-m td-s">info@werockdallas.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://www.studioalouisville.com</span></td><td><span class="td-m">https://www.studioalouisville.com</span></td><td><span class="td-m td-s">info@studioalouisville.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://threebestrated.com</span></td><td><span class="td-m">https://threebestrated.com</span></td><td><span class="td-m td-s">support@threebestrated.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://antiquestorelocator.com</span></td><td><span class="td-m">https://antiquestorelocator.com</span></td><td><span class="td-m td-s">your@email.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://www.antiquestoresnearby.com</span></td><td><span class="td-m">https://www.antiquestoresnearby.com</span></td><td><span class="td-m td-s">u002F061d11a338184f01ad93d1e4fa6838f7@glitchtip.antiquestoresnearby.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://www.xclusiveautodetailing.com</span></td><td><span class="td-m">https://www.xclusiveautodetailing.com</span></td><td><span class="td-m td-s">XCLUSIVEAUTODETAIL2211@GMAIL.COM</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://realdealdetailinglouisville.com</span></td><td><span class="td-m">https://realdealdetailinglouisville.com</span></td><td><span class="td-m td-s">info@realdealdetailinglouisville.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://www.maccosmetics.com</span></td><td><span class="td-m">https://www.maccosmetics.com</span></td><td><span class="td-m td-s">jane@maccosmetics.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://www.consumeraffairs.com</span></td><td><span class="td-m">https://www.consumeraffairs.com</span></td><td><span class="td-m td-s">0954ab4f6a2d469b816f8ed8a2d0f5da@stderr.consumeraffairs.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://lionshvac.com</span></td><td><span class="td-m">https://lionshvac.com</span></td><td><span class="td-m td-s">Info@lionshvac.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://a-z-animals.com</span></td><td><span class="td-m">https://a-z-animals.com</span></td><td><span class="td-m td-s">contact@a-z-animals.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://www.theitalianexperiment.com</span></td><td><span class="td-m">https://www.theitalianexperiment.com</span></td><td><span class="td-m td-s">hello@theitalianexperiment.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://www.thisoldhouse.com</span></td><td><span class="td-m">https://www.thisoldhouse.com</span></td><td><span class="td-m td-s">contact@thisoldhouse.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://www.civilengineermag.com</span></td><td><span class="td-m">https://www.civilengineermag.com</span></td><td><span class="td-m td-s">info@civilengineermag.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://plastermagic.com</span></td><td><span class="td-m">https://plastermagic.com</span></td><td><span class="td-m td-s">info@plastermagic.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://www.carmenorthodontics.com</span></td><td><span class="td-m">https://www.carmenorthodontics.com</span></td><td><span class="td-m td-s">info1@carmenorthodontics.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://www.polarisorthodonticcenter.com</span></td><td><span class="td-m">https://www.polarisorthodonticcenter.com</span></td><td><span class="td-m td-s">info@polarisorthodonticcenter.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://www.globalsmiles.us</span></td><td><span class="td-m">https://www.globalsmiles.us</span></td><td><span class="td-m td-s">info@globalsmiles.us</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://www.messortho.com</span></td><td><span class="td-m">https://www.messortho.com</span></td><td><span class="td-m td-s">info@messortho.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://www.plasterceiling.com.my</span></td><td><span class="td-m">https://www.plasterceiling.com.my</span></td><td><span class="td-m td-s">mrceiling.plasterceiling@gmail.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://uniplaster.com.my</span></td><td><span class="td-m">https://uniplaster.com.my</span></td><td><span class="td-m td-s">uniplaster.enquiry@gmail.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://www.columbusorthodonticcenter.com</span></td><td><span class="td-m">https://www.columbusorthodonticcenter.com</span></td><td><span class="td-m td-s">info@columbusorthodonticcenter.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://www.hewittestatesantiques.com</span></td><td><span class="td-m">https://www.hewittestatesantiques.com</span></td><td><span class="td-m td-s">hewitt1901antiques@gmail.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://www.estatesales.net</span></td><td><span class="td-m">https://www.estatesales.net</span></td><td><span class="td-m td-s">t.teardo@wannenesgroup.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://www.animalfactsencyclopedia.com</span></td><td><span class="td-m">https://www.animalfactsencyclopedia.com</span></td><td><span class="td-m td-s">info@animalfactsencyclopedia.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://www.estately.com</span></td><td><span class="td-m">https://www.estately.com</span></td><td><span class="td-m td-s">support@estately.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://www.girlfriendsestatesales.com</span></td><td><span class="td-m">https://www.girlfriendsestatesales.com</span></td><td><span class="td-m td-s">contact@girlfriendsestatesales.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://www.nebraskamed.com</span></td><td><span class="td-m">https://www.nebraskamed.com</span></td><td><span class="td-m td-s">twilson@nebraskamed.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://handymanjacks.com</span></td><td><span class="td-m">https://handymanjacks.com</span></td><td><span class="td-m td-s">hello@handymanjacks.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://omahasinus.com</span></td><td><span class="td-m">https://omahasinus.com</span></td><td><span class="td-m td-s">contactus@omahasinus.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://www.herringstonesboutique.com</span></td><td><span class="td-m">https://www.herringstonesboutique.com</span></td><td><span class="td-m td-s">herringstonesCS@gmail.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://shophemlinemonroe.com</span></td><td><span class="td-m">https://shophemlinemonroe.com</span></td><td><span class="td-m td-s">monroe@shophemline.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://shopcaras.com</span></td><td><span class="td-m">https://shopcaras.com</span></td><td><span class="td-m td-s">hello@shopcaras.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://www.shoplolajane.com</span></td><td><span class="td-m">https://www.shoplolajane.com</span></td><td><span class="td-m td-s">lolajaneboutique@yahoo.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://www.parkwayanimalcenter.com</span></td><td><span class="td-m">https://www.parkwayanimalcenter.com</span></td><td><span class="td-m td-s">info@parkwayanimalcenter.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://www.worldofvegan.com</span></td><td><span class="td-m">https://www.worldofvegan.com</span></td><td><span class="td-m td-s">hello@worldofvegan.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://barneyandrussum.net</span></td><td><span class="td-m">https://barneyandrussum.net</span></td><td><span class="td-m td-s">barneyandrussum@yahoo.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://rainbowplantlife.com</span></td><td><span class="td-m">https://rainbowplantlife.com</span></td><td><span class="td-m td-s">hello@rainbowplantlife.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://solanopetemergency.com</span></td><td><span class="td-m">https://solanopetemergency.com</span></td><td><span class="td-m td-s">staff@solanopetemergency.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://health.usnews.com</span></td><td><span class="td-m">https://health.usnews.com</span></td><td><span class="td-m td-s">csmith-schoenwalder@usnews.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://animalvetsfairfield.com</span></td><td><span class="td-m">https://animalvetsfairfield.com</span></td><td><span class="td-m td-s">staff@animalvetfairfield.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://www.locksmithunited.com</span></td><td><span class="td-m">https://www.locksmithunited.com</span></td><td><span class="td-m td-s">info@locksmithunited.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://hawaiiperio.com</span></td><td><span class="td-m">https://hawaiiperio.com</span></td><td><span class="td-m td-s">periospecialistsofhi@gmail.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://dentalcountry.com</span></td><td><span class="td-m">https://dentalcountry.com</span></td><td><span class="td-m td-s">support@dentalcountry.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://alamoanadentalcare.com</span></td><td><span class="td-m">https://alamoanadentalcare.com</span></td><td><span class="td-m td-s">info@alamoanadentalcare.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://www.kokuasmiles.com</span></td><td><span class="td-m">https://www.kokuasmiles.com</span></td><td><span class="td-m td-s">angelyn@kokua.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://www.decorilla.com</span></td><td><span class="td-m">https://www.decorilla.com</span></td><td><span class="td-m td-s">help@decorilla.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://www.koestercon.com</span></td><td><span class="td-m">https://www.koestercon.com</span></td><td><span class="td-m td-s">koester@koestercon.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://www.hgtv.com</span></td><td><span class="td-m">https://www.hgtv.com</span></td><td><span class="td-m td-s">HGTV@wrightsmedia.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://vincentgc.com</span></td><td><span class="td-m">https://vincentgc.com</span></td><td><span class="td-m td-s">Jay@vincentgc.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://secretseattle.co</span></td><td><span class="td-m">https://secretseattle.co</span></td><td><span class="td-m td-s">seattle@secretmedianetwork.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://www.ananyaspaseattle.com</span></td><td><span class="td-m">https://www.ananyaspaseattle.com</span></td><td><span class="td-m td-s">guestservices@ananyaspaseattle.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://farmfoodfamily.com</span></td><td><span class="td-m">https://farmfoodfamily.com</span></td><td><span class="td-m td-s">kim.farmfoodfamily@gmail.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://ecotree.green</span></td><td><span class="td-m">https://ecotree.green</span></td><td><span class="td-m td-s">hello@ecotree.green</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://growtherapy.com</span></td><td><span class="td-m">https://growtherapy.com</span></td><td><span class="td-m td-s">magellan.support@growtherapy.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://www.rula.com</span></td><td><span class="td-m">https://www.rula.com</span></td><td><span class="td-m td-s">partnerships@rula.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://www.perfectiontire.com</span></td><td><span class="td-m">https://www.perfectiontire.com</span></td><td><span class="td-m td-s">info@perfectiontire.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://www.lesschwab.com</span></td><td><span class="td-m">https://www.lesschwab.com</span></td><td><span class="td-m td-s">lstcprineville.011@lesschwab.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://revibementalhealth.com</span></td><td><span class="td-m">https://revibementalhealth.com</span></td><td><span class="td-m td-s">info@revibementalhealth.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://www.biography.com</span></td><td><span class="td-m">https://www.biography.com</span></td><td><span class="td-m td-s">editor@biography.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://www.instantroofer.com</span></td><td><span class="td-m">https://www.instantroofer.com</span></td><td><span class="td-m td-s">hello@instantroofer.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://carmenroofing.com</span></td><td><span class="td-m">https://carmenroofing.com</span></td><td><span class="td-m td-s">info@carmenroofing.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://iqbalcateringbd.com</span></td><td><span class="td-m">https://iqbalcateringbd.com</span></td><td><span class="td-m td-s">iqbalcatering77@gmail.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://www.bestlawyers.com</span></td><td><span class="td-m">https://www.bestlawyers.com</span></td><td><span class="td-m td-s">info@bestlawyers.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://www.cosgravelaw.com</span></td><td><span class="td-m">https://www.cosgravelaw.com</span></td><td><span class="td-m td-s">info@cosgravelaw.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://paragoncateringbd.com</span></td><td><span class="td-m">https://paragoncateringbd.com</span></td><td><span class="td-m td-s">paragoncatering@gmail.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://desibenjon.com</span></td><td><span class="td-m">https://desibenjon.com</span></td><td><span class="td-m td-s">support@desibenjon.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://palmeracatering.com</span></td><td><span class="td-m">https://palmeracatering.com</span></td><td><span class="td-m td-s">hello@palmeracatering.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://www.thechiroguy.com</span></td><td><span class="td-m">https://www.thechiroguy.com</span></td><td><span class="td-m td-s">info@thechiroguy.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://www.bonappetit.com</span></td><td><span class="td-m">https://www.bonappetit.com</span></td><td><span class="td-m td-s">help@newyorker.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://tasty.co</span></td><td><span class="td-m">https://tasty.co</span></td><td><span class="td-m td-s">support@buzzfeed.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://homeprojectcalculator.com</span></td><td><span class="td-m">https://homeprojectcalculator.com</span></td><td><span class="td-m td-s">support@homeprojectcalculator.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://www.westhawaiitoday.com</span></td><td><span class="td-m">https://www.westhawaiitoday.com</span></td><td><span class="td-m td-s">clangs@westhawaiitoday.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://yellowstoneclub.com</span></td><td><span class="td-m">https://yellowstoneclub.com</span></td><td><span class="td-m td-s">concierge@yellowstoneclub.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://www.patreon.com</span></td><td><span class="td-m">https://www.patreon.com</span></td><td><span class="td-m td-s">no-reply@patreon.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://flawlessbeautyandskin.com</span></td><td><span class="td-m">https://flawlessbeautyandskin.com</span></td><td><span class="td-m td-s">customerservice@flawlessbeautyandskin.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://www.worldatlas.com</span></td><td><span class="td-m">https://www.worldatlas.com</span></td><td><span class="td-m td-s">leia.organa@alderan.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://richardsondentistry.com</span></td><td><span class="td-m">https://richardsondentistry.com</span></td><td><span class="td-m td-s">info@RichardsonDentistry.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://www.citylinedentalcenter.com</span></td><td><span class="td-m">https://www.citylinedentalcenter.com</span></td><td><span class="td-m td-s">care@citylinedentalcenter.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://articles.hepper.com</span></td><td><span class="td-m">https://articles.hepper.com</span></td><td><span class="td-m td-s">hi@hepper.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://dogsvets.com</span></td><td><span class="td-m">https://dogsvets.com</span></td><td><span class="td-m td-s">info@dogsvets.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://www.canyoncreekfamilydentistry.com</span></td><td><span class="td-m">https://www.canyoncreekfamilydentistry.com</span></td><td><span class="td-m td-s">ccfd2091@gmail.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://www.nature.com</span></td><td><span class="td-m">https://www.nature.com</span></td><td><span class="td-m td-s">jo.smith@university.ac.uk</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://www.sciencefocus.com</span></td><td><span class="td-m">https://www.sciencefocus.com</span></td><td><span class="td-m td-s">lily.watts@ourmedia.co.uk</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://www.w3schools.com</span></td><td><span class="td-m">https://www.w3schools.com</span></td><td><span class="td-m td-s">help@w3schools.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://www.justwatch.com</span></td><td><span class="td-m">https://www.justwatch.com</span></td><td><span class="td-m td-s">feedback@justwatch.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://oasiscoolingheating.com</span></td><td><span class="td-m">https://oasiscoolingheating.com</span></td><td><span class="td-m td-s">office@oasiscoolingheating.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://web2.0calc.com</span></td><td><span class="td-m">https://web2.0calc.com</span></td><td><span class="td-m td-s">britnex@gmail.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://www.mathway.com</span></td><td><span class="td-m">https://www.mathway.com</span></td><td><span class="td-m td-s">support@mathway.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://www.calculatorsoup.com</span></td><td><span class="td-m">https://www.calculatorsoup.com</span></td><td><span class="td-m td-s">support@calculatorsoup.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://todayshomeowner.com</span></td><td><span class="td-m">https://todayshomeowner.com</span></td><td><span class="td-m td-s">hello@todayshomeowner.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://byjus.com</span></td><td><span class="td-m">https://byjus.com</span></td><td><span class="td-m td-s">contact@byjus.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://www.policygenius.com</span></td><td><span class="td-m">https://www.policygenius.com</span></td><td><span class="td-m td-s">team@policygenius.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://www.autoinsurance.com</span></td><td><span class="td-m">https://www.autoinsurance.com</span></td><td><span class="td-m td-s">info@autoinsurance.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://www.compare.com</span></td><td><span class="td-m">https://www.compare.com</span></td><td><span class="td-m td-s">press@insurify.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://insurify.com</span></td><td><span class="td-m">https://insurify.com</span></td><td><span class="td-m td-s">hello@insurify.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://www.vitals.com</span></td><td><span class="td-m">https://www.vitals.com</span></td><td><span class="td-m td-s">info@vitals.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://driveroadside.com</span></td><td><span class="td-m">https://driveroadside.com</span></td><td><span class="td-m td-s">service@driveroadside.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://www.hairclub.com</span></td><td><span class="td-m">https://www.hairclub.com</span></td><td><span class="td-m td-s">customerservice@hairclub.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://madmuscles.com</span></td><td><span class="td-m">https://madmuscles.com</span></td><td><span class="td-m td-s">support@madmuscles.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://shop.bodi.com</span></td><td><span class="td-m">https://shop.bodi.com</span></td><td><span class="td-m td-s">bodi@aiir.agency</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://www.rmcmoto.com</span></td><td><span class="td-m">https://www.rmcmoto.com</span></td><td><span class="td-m td-s">rmcmotoservice@gmail.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://buddingsociologist.in</span></td><td><span class="td-m">https://buddingsociologist.in</span></td><td><span class="td-m td-s">buddyingsociologist@gmail.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://www.designrush.com</span></td><td><span class="td-m">https://www.designrush.com</span></td><td><span class="td-m td-s">info@designrush.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://www.betterhelp.com</span></td><td><span class="td-m">https://www.betterhelp.com</span></td><td><span class="td-m td-s">contact@betterhelp.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://www.mapquest.com</span></td><td><span class="td-m">https://www.mapquest.com</span></td><td><span class="td-m td-s">help@mapquest.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://www.bloomnation.com</span></td><td><span class="td-m">https://www.bloomnation.com</span></td><td><span class="td-m td-s">support@bloomnation.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://sushikudasai.com</span></td><td><span class="td-m">https://sushikudasai.com</span></td><td><span class="td-m td-s">info@sushikudasai.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://www.theinfatuation.com</span></td><td><span class="td-m">https://www.theinfatuation.com</span></td><td><span class="td-m td-s">support@theinfatuation.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://trucks.com</span></td><td><span class="td-m">https://trucks.com</span></td><td><span class="td-m td-s">info@trucks.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="0"><td><span class="cname">https://www.mashikorestaurant.com</span></td><td><span class="td-m">https://www.mashikorestaurant.com</span></td><td><span class="td-m td-s">mashiko@mashikoshison.com</span></td><td><span class="badge" style="background:#3b82f615;color:#3b82f6;border-color:#3b82f630;">New</span></td></tr><tr data-test="1"><td><span class="cname">E2E Test</span><span class="badge badge-test">TEST</span></td><td><span class="td-m">TestCo</span></td><td><span class="td-m td-s">hello@creedwebdesign.org</span></td><td><span class="badge" style="background:#8b5cf615;color:#8b5cf6;border-color:#8b5cf630;">Day0Sent</span></td></tr></tbody>
+        </table>
+        </div>
+    </div>
+    <script>
+    function filterStage(el) {
+        document.querySelectorAll('.stab-item').forEach(e=>e.classList.remove('active'));
+        el.classList.add('active');
+        var stage = el.dataset.stage;
+        document.getElementById('stageFilter').value = stage;
+        filterProspects();
     }
+    function filterProspects() {
+        var query = (document.getElementById('searchInput').value || '').toLowerCase();
+        var stage = document.getElementById('stageFilter').value;
+        var hideTests = document.getElementById('hideTests') ? document.getElementById('hideTests').checked : false;
+        var rows = document.querySelectorAll('#prospectTable tbody tr');
+        rows.forEach(function(r) {
+            var name = (r.cells[0]?.textContent || '').toLowerCase();
+            var company = (r.cells[1]?.textContent || '').toLowerCase();
+            var email = (r.cells[2]?.textContent || '').toLowerCase();
+            var stageEl = r.cells[3]?.querySelector('.badge');
+            var rStage = stageEl ? stageEl.textContent.trim() : '';
+            var isTest = r.dataset.test === '1';
+            var matchSearch = !query || name.includes(query) || company.includes(query) || email.includes(query);
+            var matchStage = stage === 'all' || rStage === stage;
+            var matchTest = !hideTests || !isTest;
+            r.style.display = (matchSearch && matchStage && matchTest) ? '' : 'none';
+        });
+    }
+    function sortTable(col) {
+        var table = document.getElementById('prospectTable');
+        var tbody = table.querySelector('tbody');
+        var rows = Array.from(tbody.querySelectorAll('tr'));
+        var dir = table.dataset.sortDir === 'asc' ? 'desc' : 'asc';
+        table.dataset.sortDir = dir;
+        rows.sort(function(a,b) {
+            var va = (a.cells[col]?.textContent || '').trim().toLowerCase();
+            var vb = (b.cells[col]?.textContent || '').trim().toLowerCase();
+            if (va < vb) return dir === 'asc' ? -1 : 1;
+            if (va > vb) return dir === 'asc' ? 1 : -1;
+            return 0;
+        });
+        rows.forEach(function(r) { tbody.appendChild(r); });
+    }
+    </script></div>
+<div id="tab-reports" class="tc">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        
+    <div class="cd">
+        <div class="ct">Daily Activity Log</div>
+        <table><thead><tr><th>Date</th><th>Sent</th><th>Replied</th><th>Booked</th></tr></thead>
+        <tbody><tr><td>2026-07-14</td><td class='td-n'>25</td><td class='td-n td-g'>0</td><td class='td-n'>0</td></tr></tbody></table>
+    </div>
+        
+    <div class="cd">
+        <div class="ct">Pipeline Funnel &mdash; 142 total</div>
+        <div class="fbox">
+        <div class="f-item">
+            <div class="f-lbl"><span class="fn">New</span><span class="fc">117</span></div>
+            <div class="f-bar-bg"><div class="f-bar" style="width:82.4%;background:#3b82f6;"></div></div>
+        </div>
+        <div class="f-item">
+            <div class="f-lbl"><span class="fn">Day0Sent</span><span class="fc">25</span></div>
+            <div class="f-bar-bg"><div class="f-bar" style="width:17.6%;background:#8b5cf6;"></div></div>
+        </div></div>
+    </div>
+    </div></div>
+<div class="ft">Creed AI Agency<span style="color:#f43f5e;font-size:12px;margin-left:12px">&#9679; 1 test prospect hidden from metrics</span></div>
+</div>
+<script>
+function switchTab(name){
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.tc').forEach(t=>t.classList.remove('active'));
+    document.querySelector('.tab[data-tab="'+name+'"]').classList.add('active');
+    document.getElementById('tab-'+name).classList.add('active');
+}
+(function(){
+    var params=new URLSearchParams(window.location.search);
+    var t=params.get('token')||'';
+    var ct='cr33d-m45t3r-t0k3n-2026';
+    if(t===ct){document.getElementById('msgBox').style.display='none';document.getElementById('dashContent').style.display='block';}
+    else{document.getElementById('msgBox').innerHTML='<h2>Access Denied</h2><p>Invalid or missing access token.</p>';}
 })();
 </script>
-</body>
-</html>
+</body></html>
